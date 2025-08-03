@@ -1,1 +1,10 @@
 @import "tailwindcss";
+@font-face {
+    font-family: absans;
+    src: url(/absans-regular.otf);
+}
+
+@font-face {
+    font-family: gilroy;
+    src: url(/Gilroy-ExtraBold.otf);
+}
