@@ -8,3 +8,7 @@
     font-family: gilroy;
     src: url(/Gilroy-ExtraBold.otf);
 }
+
+body{
+    background-color: #09090B;
+}
