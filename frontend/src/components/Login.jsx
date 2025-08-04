@@ -1,4 +1,4 @@
-import { SignIn } from "@clerk/clerk-react"
+import { SignIn, SignInButton, SignUp, SignUpButton } from "@clerk/clerk-react"
 
 const Login = () => {
   return (
@@ -10,16 +10,18 @@ const Login = () => {
         <div className="absolute w-80 h-80 bottom-1/3 right-1/3 blur-3xl opacity-30 animate-pulse transition-all rounded-full  bg-gradient-to-r from-[#43cea2] to-[#185a9d]     shadow-lg"></div>
 
       <div className="w-[55%] z-9999 text-center h-full flex flex-col justify-center items-center">
-        <h1 className="text-[7vw] leading-none font-[gilroy] text-[#f4f4f4]">
-          <span className="bg-gradient-to-r font-bold text-[10vw] z-99999999 from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse"> AXORA </span>
+        <h1 className="text-[7vw] leading-none font-[acma-black] text-[#f4f4f4]">
+          <span className="bg-gradient-to-r font-bold text-[10vw]  z-99999999 from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse"> AXORA </span>
           <br />
-          Stay Close
+          <div>
+            <h2 className="mt-6"><span className="font-[acma-black] mt-4">Stay Close!</span></h2>
+          </div>
         </h1>
         <p className="text-[#f4f4f4] text-xl w-[85%] mt-10 font-[absans]">
           Crafted for meaningful interactions in a world full of noise — Experience a better way to connect.
         </p>
       </div>
-      <div className="flex-1  h-full justify-center items-center flex">
+      <div className="flex-1  h-full justify-center items-center flex-col z-30 flex">
         <SignIn
         appearance={{
           elements: {
@@ -38,6 +40,15 @@ const Login = () => {
         }}
         
       />
+      <div className="text-white text-lg mt-4 flex items-center justify-center gap-2 font-[absans]">
+        <span>
+          Don't have an account?
+        </span>
+      <SignInButton>
+        <button className="px-3 ml-4 py-1 bg-slate-800 rounded-xl">Sign Up</button>
+      </SignInButton>
+      </div>
+
       </div>
     </section>
   )
