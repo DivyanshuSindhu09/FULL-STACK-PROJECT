@@ -8,6 +8,7 @@ import Profile from './components/Profile'
 import CreatePost from './components/CreatePost'
 import { useUser } from '@clerk/clerk-react'
 import Layout from './components/Layout'
+import Discover from './components/Discover'
 
 const App = () => {
   const {user} = useUser()
@@ -23,6 +24,7 @@ const App = () => {
       <Route path='profile' element={<Profile />} />
       <Route path='profile/profileId' element={<Profile />} />
       <Route path='create-post' element={<CreatePost />} />
+      <Route path='discover' element={<Discover />} />
       </Route>
     </Routes>
     </>

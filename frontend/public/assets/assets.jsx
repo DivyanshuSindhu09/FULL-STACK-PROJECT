@@ -3,7 +3,6 @@ import sample_cover from './sample_cover.jpg'
 import sample_profile from './sample_profile.jpg'
 import bgImage from './bgImage.png'
 import group_users from './group_users.png'
-import { Home, MessageCircle, Search, UserIcon, Users } from 'lucide-react'
 import sponsored_img from './sponsored_img.png'
 
 export const assets = {
@@ -16,18 +15,18 @@ export const assets = {
 }
 
 export const menuItemsData = [
-    { to: '/', label: 'Feed', Icon: Home },
-    { to: '/messages', label: 'Messages', Icon: MessageCircle },
-    { to: '/connections', label: 'Connections', Icon: Users },
-    { to: '/discover', label: 'Discover', Icon: Search },
-    { to: '/profile', label: 'Profile', Icon: UserIcon },
+    { to: '/', label: 'Feed', Icon: <i className="ri-home-3-line"></i> },
+    { to: '/messages', label: 'Messages', Icon: <i className="ri-chat-4-line"></i> },
+    { to: '/connections', label: 'Connections', Icon: <i className="ri-user-3-line"></i> },
+    { to: '/discover', label: 'Discover', Icon: <i className="ri-search-2-line"></i> },
+    { to: '/profile', label: 'Profile', Icon: <i className="ri-profile-line"></i> },
 ];
 
 export const dummyUserData = {
     "_id": "user_2zdFoZib5lNr614LgkONdD8WG32",
     "email": "admin@example.com",
-    "full_name": "John Warren",
-    "username": "john_warren",
+    "full_name": "Divyanshu Sindhu",
+    "username": "divyanshuSindhu09",
     "bio": "🌍 Dreamer | 📚 Learner | 🚀 Doer\r\nExploring life one step at a time.\r\n✨ Staying curious. Creating with purpose.",
     "profile_picture": sample_profile,
     "cover_photo": sample_cover,

@@ -9,3 +9,7 @@
     src: url(/Gilroy-ExtraBold.otf);
 }
 
+@font-face {
+    font-family: acma-black;
+    src: url(/PPAcma-Black.otf);
+}
