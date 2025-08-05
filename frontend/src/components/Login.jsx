@@ -45,7 +45,7 @@ const Login = () => {
           Don't have an account?
         </span>
       <SignInButton>
-        <button className="px-3 ml-4 py-1 bg-slate-800 rounded-xl">Sign Up</button>
+        <button className="px-3 ml-4 cursor-pointer py-1 bg-slate-800 rounded-xl">Sign Up</button>
       </SignInButton>
       </div>
 
