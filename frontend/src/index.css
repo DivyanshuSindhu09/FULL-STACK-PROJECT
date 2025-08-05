@@ -13,3 +13,7 @@
     font-family: acma-black;
     src: url(/PPAcma-Black.otf);
 }
+
+body{
+    overflow-x: hidden;
+}
