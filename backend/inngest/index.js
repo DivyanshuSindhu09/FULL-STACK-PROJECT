@@ -3,9 +3,7 @@ import { User } from "../models/user.model.js";
 import connectDB from "../config/database.js";
 
 // Connect to DB
-connectDB().catch((err) => {
-  console.error("DB connection failed:", err);
-});
+await connectDB()
 
 // Create Inngest client
 export const inngest = new Inngest({ id: "axora" });
