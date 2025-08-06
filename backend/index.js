@@ -6,20 +6,23 @@ import { inngest, functions } from "./inngest/index.js"
 import { serve } from "inngest/express";
 
 const app = express();
-await connectDB()
 
-const PORT = process.env.PORT || 3000;
-
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
+// Connect to DB
+connectDB().catch((err) => {
+  console.error("DB connection failed:", err);
+});
+
+// Routes
 app.get('/', (req, res) => {
   res.send('Welcome to the Social App Backend!');
 });
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 
-
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+// ❌ DO NOT use app.listen()
+// ✅ Instead, export the app
+export default app;
