@@ -1,9 +1,5 @@
 import { Inngest } from "inngest";
 import { User } from "../models/user.model.js";
-import connectDB from "../config/database.js";
-
-// Connect to DB
-await connectDB()
 
 // Create Inngest client
 export const inngest = new Inngest({ id: "axora" });
@@ -34,6 +30,8 @@ const syncUserCreation = inngest.createFunction(
         profile_picture: image_url,
         username,
       };
+
+      console.log("Attempting to create user with this data:", userData);
 
       await User.create(userData);
 
