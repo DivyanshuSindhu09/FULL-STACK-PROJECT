@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const connectDB = async () => {
   try {
     mongoose.connection.on('connected', () => {
-      console.log("Darabase connected successfully");
+      console.log("Database connected successfully");
     })
     //! event wala fuction upar rkhna hai
     await mongoose.connect(`${process.env.MONGODB_URI}/Axora`);
