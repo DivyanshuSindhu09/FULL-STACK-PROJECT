@@ -23,6 +23,5 @@ app.get('/', (req, res) => {
 
 app.use("/api/inngest", serve({ client: inngest, functions }));
 
-// ❌ DO NOT use app.listen()
-// ✅ Instead, export the app
+
 export default app;
