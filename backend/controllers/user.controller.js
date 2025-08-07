@@ -191,3 +191,32 @@ export const followUser = async (req, res) => {
         })
     }
 }
+
+//! unfollow user
+
+export const unfollowUser = async (req, res) => {
+    try {
+        const {userID} = req.auth()
+        const {unfollowUserID} = req.body
+
+        const user = await User.findById(userID)
+
+        user.following = user.following.filter((user)=> user !== unfollowUserID)
+        await user.save()
+
+        const unfollowUser = await User.findById(unfollowUserID)
+        unfollowUser.followers = unfollowUser.followers.filter((user)=> user !== userID)
+        await unfollowUser.save()
+
+        return res.status(200).json({
+            success: true,
+            message: "User unfollowed successfully"
+        })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
