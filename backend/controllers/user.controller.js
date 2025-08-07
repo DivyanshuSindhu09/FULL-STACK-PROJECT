@@ -119,3 +119,39 @@ export const updateUserData = async (req, res) => {
         })
     }
 }
+
+
+//! find users using username,  email, full_name, location
+
+const discoverUsers = async (req, res) => {
+    try {
+        const {userID} = req.auth()
+        //!$or: Means any one of the below conditions can be true.
+
+        const {input} = req.body
+
+        const allUsers = await User.find({
+            $or:[
+                {username : new RegExp(input, 'i')},
+                {email : new RegExp(input, 'i')},
+                {full_name : new RegExp(input, 'i')},
+                {location : new RegExp(input, 'i')}
+            ]
+        })
+        //! removing the current user from the list
+        const filteredUsers = allUsers.filter(user => user._id.toString() !== userID.toString())
+
+        return res.status(200).json({
+            success: true,
+            users: filteredUsers,
+            message: "Users discovered successfully"
+        })
+
+    } catch (error) {
+        console.log(error.message) 
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
