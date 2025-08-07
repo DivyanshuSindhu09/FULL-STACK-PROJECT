@@ -13,7 +13,7 @@ connectDB()
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.user(clerkMiddleware())
+app.use(clerkMiddleware())
 //! this middleware will add auth property when the user is authenticated
 
 // Routes
