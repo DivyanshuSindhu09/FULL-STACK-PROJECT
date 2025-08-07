@@ -123,7 +123,7 @@ export const updateUserData = async (req, res) => {
 
 //! find users using username,  email, full_name, location
 
-const discoverUsers = async (req, res) => {
+export const discoverUsers = async (req, res) => {
     try {
         const {userID} = req.auth()
         //!$or: Means any one of the below conditions can be true.
@@ -155,6 +155,8 @@ const discoverUsers = async (req, res) => {
         })
     }
 }
+
+//! follow user
 
 export const followUser = async (req, res) => {
     try {
