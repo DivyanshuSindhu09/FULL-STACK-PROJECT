@@ -9,10 +9,21 @@ import CreatePost from './components/CreatePost'
 import { useUser } from '@clerk/clerk-react'
 import Layout from './components/Layout'
 import Discover from './components/Discover'
+import { useAuth } from '@clerk/clerk-react'
+import { useEffect } from 'react'
 
 const App = () => {
   const {user} = useUser()
   console.log(user)
+  //! for getting access token
+  const { getToken } = useAuth()      
+
+  useEffect(()=>{
+    if(user){
+      getToken().then((token) => console.log(token))
+    }
+  }, [user])
+
   return (
     <>
     <Routes>
