@@ -1,4 +1,5 @@
 import imagekit from "../config/imagekit.js";
+import { Connection } from "../models/connection.model.js";
 import {User} from "../models/user.model.js";
 import fs from "fs";
 //! get user data using user id
@@ -214,6 +215,70 @@ export const unfollowUser = async (req, res) => {
             success: true,
             message: "User unfollowed successfully"
         })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+//! send connection request
+
+export const sendConnectionRequest = async (req, res) => {
+    try {
+        const {userID} = req.auth()
+        const {to_user_id} = req.body
+
+        //? check if user has sent more than 20 connection requests in 24 hours
+
+        const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000)
+
+        const connectionRequests = await Connection.find({
+            from_user_id: userID,
+            created_at : { $gte: last24Hours }
+        })
+
+        //! .find query returns an array, so we can check the length
+
+        if(connectionRequests.length >= 20) {
+            return res.status(400).json({
+                success: false,
+                message: "You have sent too many connection requests in the last 24 hours"
+            })
+        }
+
+        //! check if connection request already exists
+
+        const connection = await Connection.findOne({
+            $or:[
+                {from_user_id: userID, to_user_id},
+                {from_user_id: to_user_id, to_user_id: userID}
+            ]
+        })
+
+        if(!connection){
+            await Connection.create({
+                from_user_id: userID,
+                to_user_id,
+            })
+            return res.status(200).json({
+                success: true,
+                message: "Connection request sent successfully"
+            })
+        } else if (connection && connection.status === 'accepted') {
+            return res.status(400).json({
+                success: false,
+                message: "You are already connected with this user"
+            })
+        }
+        
+        return res.status(400).json({
+            success: false,
+            message: "Connection request pending"
+        })
+
     } catch (error) {
         console.log(error.message)
         return res.status(400).json({
