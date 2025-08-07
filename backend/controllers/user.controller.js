@@ -287,3 +287,41 @@ export const sendConnectionRequest = async (req, res) => {
         })
     }
 }
+
+//! get user connections
+
+export const getUserConnections = async (req, res) => {
+    try {
+        const {userID} = req.auth()
+
+        const user =  await User.findById(userID).populate('connections', 'followers', 'following')
+
+        const connections = user.connections
+        const followers = user.followers
+        const following = user.following
+
+        //! for pending connections
+
+        const pendingConnections = ( await Connection.find({to_user_id: userID, status: 'pending'}).populate('from_user_id') ).map((connection)=> connection.from_user_id)
+
+        //! pendingConnections = [userObj1, userObj2, ...]
+
+        //! .populate likhne se pura document copy hojaega, agar koi specific field chahiye to populate('from_user_id', 'field1 field2') likhna padega or kuch exclude karna ho to populate('from_user_id', 'field1 field2 -field3') likhna padega
+
+        return res.status(200).json({
+            success: true,
+            connections,
+            followers,
+            following,
+            pendingConnections,
+            message: "User connections retrieved successfully"
+        })
+
+    } catch (error) {
+        console.log(error.message)
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
