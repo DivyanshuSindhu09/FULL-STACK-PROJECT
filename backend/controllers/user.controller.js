@@ -35,7 +35,7 @@ export const getUserData = async (req, res) => {
 export const updateUserData = async (req, res) => {
     try {
         const {userID} = req.auth()
-        const {username, bio,full_name ,location} = req.body
+        let {username, bio,full_name ,location} = req.body
 
         const tempUser = await User.findById(userID)
 
@@ -149,6 +149,42 @@ const discoverUsers = async (req, res) => {
 
     } catch (error) {
         console.log(error.message) 
+        return res.status(400).json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+export const followUser = async (req, res) => {
+    try {
+        const {userID} = req.auth()
+        const {followUserID} = req.body
+        //! koi bhi name rkh skte hain variable ka
+
+        const user = await User.findById(userID)
+
+        if(user.following.includes(followUserID)) {
+            return res.status(400).json({
+                success: false,
+                message: "You are already following this user"
+            })
+        }
+
+        user.following.push(followUserID)
+        await user.save()
+
+        const followUser = await User.findById(followUserID)
+        //! jis follow kr rhe hain uske followers me bhi add krna hoga
+        followUser.followers.push(userID)
+        await followUser.save()
+
+        return res.status(200).json({
+            success: true,
+            message: "User followed successfully"
+        })
+    } catch (error) {
+        console.log(error.message)
         return res.status(400).json({
             success: false,
             message: error.message
