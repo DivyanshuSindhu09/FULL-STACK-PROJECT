@@ -91,3 +91,42 @@ export const getPost = async (req, res) => {
         })
     }
 }
+
+/*
+Post.find({ user: { $in: [...] } }): sirf un users ke posts fetch ho rahe hain jo userFriends mein hain.
+
+.populate('user'): har post ke andar user field ke sirf _id ke jagah uska full user object inject ho jaata hai (e.g., name, avatar, etc.)
+
+.sort({ createdAt: -1 }): latest posts sabse pehle.
+
+
+*/
+
+//! like post
+
+export const likePost = async (req, res) => {
+    try {
+        const {userId} = req.auth()
+        const {postId} = req.body
+
+        const post = await Post.findById(postId)
+
+        if(post.likes_count.includes(userId)){
+            post.likes_count = post.likes_count.filter(user => user !== userId)
+            await post.save()
+            return res.status(200).json({
+                success : true,
+                message : "Post Unliked"
+            })
+        }else{
+            post.likes_count.push(userId)
+            await post.save()
+            return res.status(200).json({
+                success : true,
+                message : "Post Liked"
+            })
+        }
+    } catch (error) {
+        
+    }
+}
