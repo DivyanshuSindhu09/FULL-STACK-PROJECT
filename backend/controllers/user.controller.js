@@ -3,6 +3,7 @@ import { Connection } from "../models/connection.model.js";
 import {User} from "../models/user.model.js";
 import {Post} from "../models/post.model.js"
 import fs from "fs";
+import { inngest } from "../inngest/index.js";
 //! get user data using user id
 
 export const getUserData = async (req, res) => {
@@ -231,7 +232,7 @@ export const sendConnectionRequest = async (req, res) => {
     try {
         const {userID} = req.auth()
         const {to_user_id} = req.body
-
+        
         //? check if user has sent more than 20 connection requests in 24 hours
 
         const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000)
@@ -249,9 +250,9 @@ export const sendConnectionRequest = async (req, res) => {
                 message: "You have sent too many connection requests in the last 24 hours"
             })
         }
-
+        
         //! check if connection request already exists
-
+        
         const connection = await Connection.findOne({
             $or:[
                 {from_user_id: userID, to_user_id},
@@ -260,10 +261,19 @@ export const sendConnectionRequest = async (req, res) => {
         })
 
         if(!connection){
-            await Connection.create({
+            const newConnection = await Connection.create({
                 from_user_id: userID,
                 to_user_id,
             })
+            //! triggering send connection request reminder function
+
+            await inngest.send({
+                name : "app/connection-request",
+                data : {
+                    connectionId : newConnection._id
+                }
+            })
+
             return res.status(200).json({
                 success: true,
                 message: "Connection request sent successfully"

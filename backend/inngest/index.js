@@ -2,6 +2,7 @@ import { Inngest } from "inngest";
 import { User } from "../models/user.model.js";
 import { Connection } from "../models/connection.model.js";
 import sendEmail from "../config/nodemailer.js";
+import Story from "../models/story.model.js";
 
 // Create Inngest client
 export const inngest = new Inngest({ id: "axora" });
@@ -113,5 +114,26 @@ const sendNewConnectionReminder = inngest.createFunction(
 )
 //! 24 ghante baad wali mail baad mein lagaenge
 
+
+//! to delete story after 24hrs
+
+const deleteStory = inngest.createFunction(
+  {id : "story-delete"},
+  {event : "app/story.delete"},
+  async ({event, step}) => {
+    const {storyId} = event.data
+    const in24Hours = new Date(Date.now() + 24*60*60*1000 )
+
+    await step.sleepUntil('wait-for-24-hours', in24Hours)
+    await step.run("delete-story", async()=> {
+      await Story.findByIdAndDelete(storyId)
+      return {message : "Story Was Deleted"}
+    })
+  }
+)
+
+
 // Export Inngest functions
-export const functions = [syncUserCreation, syncUserUpdation, syncUserDeletion, sendNewConnectionReminder];
+export const functions = [syncUserCreation, syncUserUpdation, syncUserDeletion, sendNewConnectionReminder,
+  deleteStory
+];
