@@ -1,6 +1,7 @@
 import fs from 'fs'
 import imagekit from '../config/imagekit.js'
 import Story from '../models/story.model.js'
+import { User } from '../models/user.model.js'
 
 export const createStory = async (req, res) => {
     try {
@@ -43,3 +44,31 @@ export const createStory = async (req, res) => {
         })
     }
 } 
+
+//! get user stories
+
+export const getFriendsStories = async (req, res) => {
+    try {
+        const {userId} = req.auth()
+    
+        const user = await User.findById(userId)
+    
+        const userFriends = [userId, ...user.connections, ...user.following]
+    
+        const friendsStories = await Story.find({
+            user : {
+                $in : userFriends 
+            }
+        }).populate('user').sort({createdAt : -1})
+    
+        return res.status(200).json({
+            success : true, friendsStories
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({
+            success:false,
+            message: error.message
+        })
+    }
+}
