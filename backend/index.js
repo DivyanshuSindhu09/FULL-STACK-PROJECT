@@ -6,6 +6,7 @@ import { serve } from "inngest/express";
 import connectDB from './config/database.js';
 import { clerkMiddleware } from '@clerk/express'
 import userRouter from './routes/user.routes.js';
+import postRouter from './routes/post.routes.js';
 
 const app = express();
 
@@ -25,5 +26,6 @@ app.get('/', (req, res) => {
 app.use("/api/inngest", serve({ client: inngest, functions }));
 
 app.use('/api/user', userRouter)
+app.use('/api/post', postRouter)
 
 export default app;
