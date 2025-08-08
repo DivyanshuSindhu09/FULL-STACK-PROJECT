@@ -1,6 +1,7 @@
 import { Inngest } from "inngest";
 import { User } from "../models/user.model.js";
 import { Connection } from "../models/connection.model.js";
+import sendEmail from "../config/nodemailer.js";
 
 // Create Inngest client
 export const inngest = new Inngest({ id: "axora" });
@@ -102,9 +103,15 @@ const sendNewConnectionReminder = inngest.createFunction(
   <br/>
   <p>Thanks,<br/>PingUp – Stay Connected</p>
 </div>`
+      await sendEmail({
+        to : connection.to_user_id.email,
+        subject,
+        body
+      })
     })
   }
 )
+//! 24 ghante baad wali mail baad mein lagaenge
 
 // Export Inngest functions
-export const functions = [syncUserCreation, syncUserUpdation, syncUserDeletion];
+export const functions = [syncUserCreation, syncUserUpdation, syncUserDeletion, sendNewConnectionReminder];
