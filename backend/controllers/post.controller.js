@@ -2,6 +2,7 @@
 import fs from 'fs'
 import imagekit from '../config/imagekit.js'
 import { Post } from '../models/post.model.js'
+import { User } from '../models/user.model.js'
 
 export const addPost = async (req, res) => {
     try {
@@ -53,6 +54,39 @@ export const addPost = async (req, res) => {
         console.log(error)
         return res.status(400).json({
             success : false,
+            message : error.message
+        })
+    }
+}
+
+//! get post
+
+export const getPost = async (req, res) => {
+    try {
+        
+        const {userId} = req.auth()
+
+        const user = await User.findById(userId)
+
+        //! finding connected users and following 
+
+        const userFriends = [ userId, ...user.connections, ...user.following ]
+
+        const posts  = await Post.find({
+            user : {
+                $in : userFriends
+            }
+        }).populate('user').sort({createdAt : -1})
+
+        return res.status(200).json({
+            success : true,
+            posts
+        })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(400).json({
+            succcess : false,
             message : error.message
         })
     }
