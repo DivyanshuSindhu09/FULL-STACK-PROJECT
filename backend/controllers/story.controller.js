@@ -1,6 +1,6 @@
 import fs from 'fs'
 import imagekit from '../config/imagekit.js'
-import Story from '../models/story.model.js'
+import {Story} from '../models/story.model.js'
 import { User } from '../models/user.model.js'
 import { inngest } from '../inngest/index.js'
 

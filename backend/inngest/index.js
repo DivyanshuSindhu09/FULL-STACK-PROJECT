@@ -2,7 +2,7 @@ import { Inngest } from "inngest";
 import { User } from "../models/user.model.js";
 import { Connection } from "../models/connection.model.js";
 import sendEmail from "../config/nodemailer.js";
-import Story from "../models/story.model.js";
+import { Story } from "../models/story.model.js";
 
 // Create Inngest client
 export const inngest = new Inngest({ id: "axora" });
