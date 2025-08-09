@@ -1,7 +1,6 @@
 import fs from "fs"
-import imagekit from "../config/imagekit"
-import { Message } from "../models/message.model"
-import { json } from "stream/consumers"
+import imagekit from "../config/imagekit.js"
+import { Message } from "../models/message.model.js"
 
 
 

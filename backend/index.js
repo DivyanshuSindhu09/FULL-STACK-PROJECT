@@ -8,6 +8,7 @@ import { clerkMiddleware } from '@clerk/express'
 import userRouter from './routes/user.routes.js';
 import postRouter from './routes/post.routes.js';
 import storyRouter from './routes/story.routes.js';
+import messageRouter from './routes/message.routes.js';
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use('/api/user', userRouter)
 app.use('/api/post', postRouter)
 app.use('/api/story', storyRouter)
+app.use('/api/message', messageRouter)
 
 export default app;
