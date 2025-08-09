@@ -15,7 +15,7 @@ export const createStory = async (req, res) => {
         
         //! upload media to imagekit
         
-        if(media_type == 'image' || media_type == 'video'){
+        if(media_type === 'image' || media_type === 'video'){
             const fileBuffer = fs.readFileSync(media.path)
             const response = await imagekit.upload({
                 file: fileBuffer,
