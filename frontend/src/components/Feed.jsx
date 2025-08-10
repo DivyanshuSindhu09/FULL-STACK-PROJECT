@@ -21,7 +21,7 @@ const Feed = () => {
       <div className='bg-amber-300 min-h-full w-[70%]'>
         <Stories/>
         Stories Here
-        <div className='p-4 space-y-6'>List of Post</div>
+        <div className='p-4 space-y-6'>YAHA AeNGI POSTEN BC</div>
       </div>
 
       {/* right side bar */}
