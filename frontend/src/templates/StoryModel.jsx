@@ -36,7 +36,7 @@ const storyGradients = [
         <i
         onClick={()=>setModel(false)}
         className="absolute top-5 right-5 text-3xl cursor-pointer ri-close-circle-line"></i>
-        <h2 className='text-4xl font-[acma-black] mb-4'>Create A Story!</h2>
+        <h2 className='text-4xl font-[acma-black] mb-4'>Share Your Moment!</h2>
         <div className= {`rounded-lg z-100 h-96 w-150 flex items-center justify-center relative ${background}`} >
             {
                 mode === "text" && (
@@ -96,7 +96,7 @@ const storyGradients = [
             </div>
                 <button
       onClick={()=>handleCreateStory()}
-      className="relative overflow-hidden px-8 py-3 mt-4 rounded-2xl font-semibold text-white tracking-wide
+      className="relative overflow-hidden flex items-center text-xl cursor-pointer font-[acma-black] px-8 py-3 mt-4 rounded-2xl font-semibold text-white tracking-wide
         bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500
         shadow-[0_8px_30px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_40px_rgba(236,72,153,0.6)]
         transition-all duration-300 hover:scale-105 active:scale-95"
