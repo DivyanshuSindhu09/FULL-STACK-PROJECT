@@ -17,3 +17,28 @@
 body{
     overflow-x: hidden;
 }
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  animation: gradientMove 4s ease infinite;
+}
+
+/* Shine effect */
+.shine {
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: none;
+  transition: transform 0.7s ease-in-out;
+}
+button:hover .shine {
+  transform: translateX(100%);
+}

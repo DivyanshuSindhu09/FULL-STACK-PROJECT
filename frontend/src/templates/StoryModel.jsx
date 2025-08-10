@@ -36,21 +36,21 @@ const storyGradients = [
         <i
         onClick={()=>setModel(false)}
         className="absolute top-5 right-5 text-3xl cursor-pointer ri-close-circle-line"></i>
-        <h2 className='text-4xl font-[acma-black]'>Create A Story!</h2>
-        <div className= {`rounded-lg z-100 h-96 w-80 flex items-center justify-center relative ${background}`} >
+        <h2 className='text-4xl font-[acma-black] mb-4'>Create A Story!</h2>
+        <div className= {`rounded-lg z-100 h-96 w-150 flex items-center justify-center relative ${background}`} >
             {
                 mode === "text" && (
                     <textarea 
                     placeholder='Say it loud without saying a word...'
                     value={text}
                     onChange={(e)=>setText(e.target.value)}
-                    className=' font-[absans] bg-transparent text-white w-full h-full p-6 text-lg resize-none focus:outline-none'
+                    className=' font-[absans] bg-transparent text-white w-full h-full p-6 text-xl resize-none focus:outline-none'
                     />
                 )
             }
             {
                 mode === "media" && previewUrl && (
-                    media?.type.startWith('image')  ? ( 
+                    media?.type.startsWith('image')  ? ( 
                         //! remember startsWith()
                         <img src={previewUrl} 
                         className='object-contain max-h-full'
@@ -77,6 +77,43 @@ const storyGradients = [
                     ))                    
                 }
             </div>
+            <div className='flex gap-2 mt-4 w-150'>
+                <button 
+                onClick={()=>{setMode('text'); setMedia(null); setPreviewUrl(null)}}
+                className={`flex-1 flex items-center justify-center font-[absans] cursor-pointer gap-2 p-2 rounded
+                ${mode === "text" ? "bg-white text-black" : "bg-zinc-800" }`}>
+                    <i className="ri-quote-text text-xl"></i> <p className='font-[absans]'>Text</p>
+                </button>
+                <label 
+                className={`flex flex-1 items-center justify-center gap-2 p-2 rounded cursor-pointer
+                ${mode === "media" ? "bg-white text-black" : "bg-zinc-800" }`}>
+                    <input
+                    onChange={(e)=>{handleMediaUpload(e); setMode('media')}}
+                    className='hidden'
+                    type="file" accept='image/*, video/*' />
+                    <i class="text-xl ri-file-upload-fill"></i> <p className='font-[absans]'>Photo/Video</p>
+                </label>
+            </div>
+                <button
+      onClick={()=>handleCreateStory()}
+      className="relative overflow-hidden px-8 py-3 mt-4 rounded-2xl font-semibold text-white tracking-wide
+        bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500
+        shadow-[0_8px_30px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_40px_rgba(236,72,153,0.6)]
+        transition-all duration-300 hover:scale-105 active:scale-95"
+    >
+      {/* Shine sweep */}
+      <span className="shine absolute inset-0 w-full h-full" />
+
+      {/* Content */}
+      <span className="inline-flex items-center gap-2 relative z-10">
+        <i className="ri-sparkling-2-line text-lg"></i>
+        Create Story
+      </span>
+
+      {/* Animated gradient border */}
+      <span className="absolute inset-0 rounded-2xl border-2 border-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400
+        animate-gradient bg-[length:300%_300%] opacity-50 pointer-events-none" />
+    </button>
     </section>
   )
 }
