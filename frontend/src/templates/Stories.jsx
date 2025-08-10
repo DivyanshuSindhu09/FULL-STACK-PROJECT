@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { dummyStoriesData } from '../../public/assets/assets'
 import moment from "moment"
+import StoryModel from './StoryModel'
 
 const Stories = () => {
     const [stories, setStories] = useState([0])
+    const [model, setModel] = useState(false)
 
     const fetchStories = async () => {
         setStories(dummyStoriesData)
@@ -18,7 +20,9 @@ const Stories = () => {
             <div className="flex gap-3 overflow-x-auto no-scrollbar py-5 px-3">
                 
                 {/* Add Story Card */}
-                <div className='min-w-23 rounded-lg h-30 bg-gradient-to-br from-[#1e293b] to-[#334155] flex flex-col justify-center items-center border-dashed border-2 border-gray-400/40 py-5 px-1 text-sm font-[absans] shadow-lg shadow-purple-800/30 hover:shadow-purple-500/40 transition duration-300'>
+                <div
+                onClick={()=> setModel(true)}
+                className='min-w-23 rounded-lg h-30 cursor-pointer bg-gradient-to-br from-[#1e293b] to-[#334155] flex flex-col justify-center items-center border-dashed border-2 border-gray-400/40 py-5 px-1 text-sm font-[absans] shadow-lg shadow-purple-800/30 hover:shadow-purple-500/40 transition duration-300'>
                     <i className="text-xl ri-add-circle-line"></i>
                     <p>Add Story</p>
                 </div>
@@ -27,7 +31,7 @@ const Stories = () => {
                 {
                     stories.map((story, index) => (
                         <div
-                            className='min-w-23 rounded-lg relative h-30 bg-gradient-to-br from-[#1e293b] to-[#334155] shadow-lg shadow-purple-800/30 hover:shadow-purple-500/40 transition duration-300 py-5 px-2 text-sm font-[absans]'
+                            className='min-w-23 rounded-lg relative cursor-pointer h-30 bg-gradient-to-br from-[#1e293b] to-[#334155] shadow-lg shadow-purple-800/30 hover:shadow-purple-500/40 transition duration-300 py-5 px-2 text-sm font-[absans]'
                             key={index}
                         >
                             <img
@@ -37,6 +41,7 @@ const Stories = () => {
                             />
 
                             <p className='z-1 absolute truncate top-15 left-3 text-sm max-w-18'>
+                                 {/* //! truncate propcss */}
                                 {story.content}
                             </p>
                             <p className='z-1 absolute bottom-1 right-1 text-xs'>
@@ -64,6 +69,7 @@ const Stories = () => {
                     ))
                 }
             </div>
+            {model && <StoryModel setModel={setModel} />}
         </section>
     )
 }
