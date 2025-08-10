@@ -32,4 +32,6 @@ app.use('/api/post', postRouter)
 app.use('/api/story', storyRouter)
 app.use('/api/message', messageRouter)
 
+app.listen(4000, ()=>{console.log(`SERVER IS RUNNING AT LOCALHOST 4000`)})
+
 export default app;
