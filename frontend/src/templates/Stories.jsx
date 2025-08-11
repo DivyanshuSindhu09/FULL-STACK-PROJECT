@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { dummyStoriesData } from '../../public/assets/assets'
 import moment from "moment"
 import StoryModel from './StoryModel'
+import StoryViewer from './StoryViewer'
 
 const Stories = () => {
-    const [stories, setStories] = useState([0])
+    const [stories, setStories] = useState([])
     const [model, setModel] = useState(false)
+    const [viewStory, setViewStory] = useState(null)
 
     const fetchStories = async () => {
         setStories(dummyStoriesData)
@@ -31,6 +33,7 @@ const Stories = () => {
                 {
                     stories.map((story, index) => (
                         <div
+                            onClick={()=>setViewStory(story)}
                             className='min-w-23 rounded-lg relative cursor-pointer h-30 bg-gradient-to-br from-[#1e293b] to-[#334155] shadow-lg shadow-purple-800/30 hover:shadow-purple-500/40 transition duration-300 py-5 px-2 text-sm font-[absans]'
                             key={index}
                         >
@@ -70,6 +73,10 @@ const Stories = () => {
                 }
             </div>
             {model && <StoryModel setModel={setModel} />}
+            {/* view story */}
+            {
+                viewStory && <StoryViewer viewStory={viewStory} setViewStory={setViewStory} />
+            }
         </section>
     )
 }
