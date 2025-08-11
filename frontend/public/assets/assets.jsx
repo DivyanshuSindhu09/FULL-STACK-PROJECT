@@ -91,7 +91,7 @@ export const dummyStoriesData = [
         "_id": "68833e136e4b42b685068937",
         "user": dummyUserData,
         "content": "",
-        "media_url": "https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg",
+        "media_url": "/forged.jpeg",
         "media_type": "image",
         "background_color": "#4f46e5",
         "createdAt": "2025-07-25T08:19:31.080Z",
@@ -124,7 +124,7 @@ export const dummyPostsData = [
     {
         "_id": "68773e977db16954a783839c",
         "user": dummyUserData,
-        "content": "We're a small #team with a big vision — working day and night to turn dreams into products, and #products into something people love.",
+        "content": "We're a small #team with a big vision — working day and night to turn dreams into products, and #products into something people love. #ForgedInSyntax",
         "image_urls": [
             "https://images.pexels.com/photos/1595385/pexels-photo-1595385.jpeg"
         ],
