@@ -39,7 +39,7 @@ const Stories = () => {
                         >
                             <img
                             src={story.user?.profile_picture ? story?.user.profile_picture : null}
-                            className='z-1 absolute size-8 rounded-full top-1 left-1 ring-2 ring-purple-400 ring-offset-2 ring-offset-[#1e293b] shadow'
+                            className='z-1 absolute size-6 rounded-full top-2 left-2 ring-2 ring-purple-400 ring-offset-2 ring-offset-[#1e293b] shadow'
                             alt=""
                             />
 

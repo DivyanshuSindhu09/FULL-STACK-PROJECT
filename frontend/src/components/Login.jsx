@@ -11,7 +11,7 @@ const Login = () => {
 
       <div className="w-[55%] z-9999 text-center h-full flex flex-col justify-center items-center">
         <h1 className="text-[7vw] leading-none font-[acma-black] text-[#f4f4f4]">
-          <span className="bg-gradient-to-r font-bold text-[10vw]  z-99999999 from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent animate-pulse"> AXORA </span>
+          <span className="bg-gradient-to-r font-bold text-[10vw]  z-99999999 from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent "> AXORA </span>
           <br />
           <div>
             <h2 className="mt-6"><span className="font-[acma-black] mt-4">Stay Close!</span></h2>
