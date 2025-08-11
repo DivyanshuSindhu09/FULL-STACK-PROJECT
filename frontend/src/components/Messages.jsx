@@ -1,6 +1,9 @@
 import { dummyConnectionsData } from '../../public/assets/assets'
-
+import { useNavigate } from "react-router-dom"
 const Messages = () => {
+
+  const navigate = useNavigate()
+
   return (
     <section className='text-white min-h-screen relative'>
       <div className='max-w-6xl mx-auto p-6'>
@@ -34,10 +37,14 @@ const Messages = () => {
                 <p className='text-sm dark:text-gray-400'>{user.bio}</p>
               </div>
               <div className='flex flex-col gap-2'>
-                <button className='size-5 my-2 cursor-pointer'>
+                <button
+                onClick={()=>navigate(`/messages/${user._id}`)}
+                className='size-5 my-2 cursor-pointer'>
                   <i className="text-xl bg-gray-700 p-2 rounded-md ri-message-3-fill"></i>
                 </button>
-                <button className='size-5 my-2 cursor-pointer'>
+                <button
+                onClick={()=>navigate(`/profile/${user._id}`)}
+                className='size-5 my-2 cursor-pointer'>
                   <i className="text-xl bg-gray-700 p-2 rounded-md ri-eye-fill"></i>
                 </button>
               </div>
