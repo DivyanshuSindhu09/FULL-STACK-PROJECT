@@ -155,7 +155,7 @@ export const dummyPostsData = [
     },
     {
         "_id": "686e3e47ba0cf0fecba19947",
-        "user": dummyUserData,
+        "user": dummyUserData,          
         "content": "",
         "image_urls": [
             "https://images.pexels.com/photos/1619317/pexels-photo-1619317.jpeg"
