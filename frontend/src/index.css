@@ -42,3 +42,7 @@ body{
 button:hover .shine {
   transform: translateX(100%);
 }
+
+.no-scrollbar::-webkit-scrollbar{
+  display: none;
+}
