@@ -10,7 +10,7 @@ const Sidebar = ({sideBarOpen, setSideBarOpen}) => {
 
   return (
     <section
-      className={`w-60 xl:72 bg-[#0e1525] border-r-6 border-[#1e293b] flex flex-col justify-between items-center max-sm:absolute top-0 bottom-0 z-20 ${sideBarOpen ? 'translate-x-0' : 'max-sm:-translate-x-full'} transition-all duration-300 ease-in-out`}
+      className={`w-60 xl:72 bg-[#0e1525] h-screen overflow-hidden border-r-6 border-[#1e293b] flex flex-col justify-between items-center max-sm:absolute top-0 bottom-0 z-20 ${sideBarOpen ? 'translate-x-0' : 'max-sm:-translate-x-full'} transition-all duration-300 ease-in-out`}
     >
       <div className='w-full'>
         <h2
