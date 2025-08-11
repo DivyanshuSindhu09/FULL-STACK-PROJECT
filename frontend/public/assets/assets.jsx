@@ -81,7 +81,7 @@ export const dummyStoriesData = [
         "_id": "68833fe96e4b42b685068a5e",
         "user": dummyUserData,
         "content": "",
-        "media_url": "https://videos.pexels.com/video-files/14447442/14447442-hd_1080_1920_30fps.mp4",
+        "media_url": "/story.mp4",
         "media_type": "video",
         "background_color": "#4f46e5",
         "createdAt": "2025-07-25T08:27:21.289Z",

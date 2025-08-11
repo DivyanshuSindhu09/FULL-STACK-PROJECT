@@ -61,8 +61,8 @@ const Stories = () => {
                                                     src={story.media_url} alt=""
                                                 /> :
                                                 <video
-                                                    className='h-full w-full object-cover hover:scale-110 transition duration-500 opacity-70 hover:opacity-80'
-                                                    src={story.media_url}
+                                                    className='h-full w-full  object-cover hover:scale-110 transition duration-500  opacity-70 hover:opacity-80'
+                                                    src={story.media_url} 
                                                 />
                                         }
                                     </div>
