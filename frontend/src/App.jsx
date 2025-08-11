@@ -11,6 +11,7 @@ import Layout from './components/Layout'
 import Discover from './components/Discover'
 import { useAuth } from '@clerk/clerk-react'
 import { useEffect } from 'react'
+import {Toaster} from "react-hot-toast"
 
 const App = () => {
   const {user} = useUser()
@@ -26,6 +27,7 @@ const App = () => {
 
   return (
     <>
+    <Toaster/>
     <Routes>
       <Route path="/" element={!user ? <Login /> : <Layout/> } >
       <Route index element={<Feed/>} />

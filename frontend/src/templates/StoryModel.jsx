@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
+
 
 const StoryModel = ({setModel}) => {
 const storyGradients = [
@@ -95,7 +97,11 @@ const storyGradients = [
                 </label>
             </div>
                 <button
-      onClick={()=>handleCreateStory()}
+      onClick={()=>toast.promise(handleCreateStory(), {
+        loading : "Saving...",
+        success : <p className='font-[absans]'>Story Added</p>,
+        error : e => <p> {e.message} </p>
+      })}
       className="relative overflow-hidden flex items-center text-xl cursor-pointer font-[acma-black] px-8 py-3 mt-4 rounded-2xl font-semibold text-white tracking-wide
         bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500
         shadow-[0_8px_30px_rgba(236,72,153,0.4)] hover:shadow-[0_8px_40px_rgba(236,72,153,0.6)]
