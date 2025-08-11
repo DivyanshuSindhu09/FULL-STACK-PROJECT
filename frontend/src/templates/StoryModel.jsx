@@ -34,7 +34,7 @@ const storyGradients = [
 
     }
   return (
-    <section className='w-full h-screen flex items-center justify-center flex-col fixed bg-black/50 text-white top-0 left-0 z-99 backdrop-blur '>
+    <section className='w-full h-screen flex items-center justify-center flex-col fixed bg-black/80 text-white top-0 left-0 z-99 backdrop-blur '>
         <i
         onClick={()=>setModel(false)}
         className="absolute top-5 right-5 text-3xl cursor-pointer ri-close-circle-line"></i>
