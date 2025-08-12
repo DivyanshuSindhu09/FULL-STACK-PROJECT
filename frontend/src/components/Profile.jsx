@@ -25,12 +25,12 @@ const Profile = () => {
   }, [])
   
   return user ? (
-    <section className='relative max-h-screen overflow-y-scroll no-scrollbar p-6'>
+    <section className='relative max-h-screen font-[absans] overflow-y-scroll no-scrollbar p-6'>
       <div className='max-w-3xl mx-auto'>
         {/* profile card */}
         <div className='bg-white rounded-2xl shadow overflow-hidden'>
           {/* cover photo */}
-          <div className='h-40 md:h-56 bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200'>
+          <div className='md:h-56 lg:h-36  bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200'>
             {
               user.cover_photo && (
                 <img
@@ -43,7 +43,7 @@ const Profile = () => {
           <UserProfile user={user} posts={posts} profileId={profileId} setShowEdit={setShowEdit} />
         </div>
         {/* tabs */}
-        <div className='mt-6'>
+        <div className='mt-4'>
             <div className='bg-white rounded-xl shadow p-1 flex max-w-md mx-auto'>
               {
                 ['posts', 'media', 'likes'].map((tab, index) => (
