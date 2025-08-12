@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { dummyPostsData, dummyUserData } from '../../public/assets/assets'
 import Loading from '../templates/Loading'
 import UserProfile from '../templates/UserProfile'
+import PostCard from '../templates/PostCard'
 
 
 const Profile = () => {
@@ -23,7 +24,7 @@ const Profile = () => {
   }, [])
   
   return user ? (
-    <section className='relative h-full overflow-y-scroll no-scrollbar p-6'>
+    <section className='relative max-h-screen overflow-y-scroll no-scrollbar p-6'>
       <div className='max-w-3xl mx-auto'>
         {/* profile card */}
         <div className='bg-white rounded-2xl shadow overflow-hidden'>
@@ -39,6 +40,33 @@ const Profile = () => {
           </div>
           {/* user info */}
           <UserProfile user={user} posts={posts} profileId={profileId} setShowEdit={setShowEdit} />
+        </div>
+        {/* tabs */}
+        <div className='mt-6'>
+            <div className='bg-white rounded-xl shadow p-1 flex max-w-md mx-auto'>
+              {
+                ['posts', 'media', 'likes'].map((tab, index) => (
+                  <button
+                  onClick={()=>setActiveTab(tab)}
+                  className={`flex-1 px-4 py-2 text-sm font-medium rounded-lg transition-colors cursor-pointer ${activeTab === tab ? "bg-indigo-600 text-white" : "text-gray-600 hover:text-gray-900"}`}
+                  key={index}>
+                    {tab.charAt(0).toUpperCase() + tab.slice(1) }
+                  </button>
+                ))
+              }
+            </div>
+            {/* posts */}
+            {
+              activeTab === 'posts' && (
+                <div className='mt-6  flex flex-col items-center gap-6'>
+                  {
+                    posts.map((post)=>(
+                      <PostCard key={post._id} post={post} />
+                    ))
+                  }
+                </div>
+              )
+            }
         </div>
       </div>
     </section>

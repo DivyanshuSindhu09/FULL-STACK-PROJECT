@@ -19,7 +19,7 @@ const PostCard = ({ post }) => {
   )
 
   return (
-    <div className="bg-gradient-to-br from-[#1c1f26] to-[#13151a] text-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_6px_25px_rgba(0,0,0,0.6)] transition-all duration-300 border border-gray-800/60 p-4 space-y-4">
+    <div className="bg-gradient-to-br w-full from-[#1c1f26] to-[#13151a] text-gray-100 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.4)] hover:shadow-[0_6px_25px_rgba(0,0,0,0.6)] transition-all duration-300 border border-gray-800/60 p-4 space-y-4">
       {/* user info */}
       <div className="flex items-center gap-3">
         <img
