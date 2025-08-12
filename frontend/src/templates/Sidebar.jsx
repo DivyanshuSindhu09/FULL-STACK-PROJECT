@@ -3,14 +3,16 @@ import MenuItems from './MenuItems'
 import { UserButton, useClerk } from '@clerk/clerk-react'
 import { dummyUserData } from '../../public/assets/assets'
 
-const Sidebar = ({sideBarOpen, setSideBarOpen}) => {
+const Sidebar = ({ sideBarOpen, setSideBarOpen }) => {
   const user = dummyUserData
   const navigate = useNavigate()
   const { signOut } = useClerk()
 
   return (
     <section
-      className={`w-60 xl:72 bg-[#0e1525] h-screen overflow-hidden border-r-6 border-[#1e293b] flex flex-col justify-between items-center max-sm:absolute top-0 bottom-0 z-20 ${sideBarOpen ? 'translate-x-0' : 'max-sm:-translate-x-full'} transition-all duration-300 ease-in-out`}
+      className={`w-60 xl:72 bg-[#0e1525] h-screen overflow-hidden border-r-6 border-[#1e293b] flex flex-col justify-between items-center max-sm:absolute top-0 bottom-0 z-20 ${
+        sideBarOpen ? 'translate-x-0' : 'max-sm:-translate-x-full'
+      } transition-all duration-300 ease-in-out`}
     >
       <div className='w-full'>
         <h2
@@ -24,7 +26,7 @@ const Sidebar = ({sideBarOpen, setSideBarOpen}) => {
         <MenuItems setSideBarOpen={setSideBarOpen} />
 
         <Link
-          className='flex items-center gap-4 p-2 mt-6 mx-6 rounded-lg bg-gradient-to-r from-purple-500 to-cyan-400 hover:from-purple-600 hover:to-cyan-500 active:scale-95 transition text-white cursor-pointer font-[absans] text-xl font-medium'
+          className='flex items-center gap-4 p-2 mt-6 mx-6 rounded-lg bg-gradient-to-r from-purple-500 to-cyan-400 hover:from-purple-600 hover:to-cyan-500 active:scale-95 transition text-white cursor-pointer font-[absans] text-xl font-medium shadow-[0_0_15px_rgba(168,85,247,0.7)] hover:shadow-[0_0_25px_rgba(6,182,212,0.9)]'
           to='/create-post'
         >
           <i className='ri-add-circle-line'></i>
