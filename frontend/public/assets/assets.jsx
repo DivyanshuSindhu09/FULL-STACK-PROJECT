@@ -23,7 +23,7 @@ export const menuItemsData = [
 ];
 
 export const dummyUserData = {
-    "_id": "user_2zdFoZib5lNr614LgkONdD8WG32",
+    "_id": "user_30y28SKWgoCGAE4eAN8RuHfIFVP",
     "email": "admin@example.com",
     "full_name": "Divyanshu Sindhu",
     "username": "divyanshuSindhu09",
