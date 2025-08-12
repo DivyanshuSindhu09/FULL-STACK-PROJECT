@@ -17,13 +17,13 @@ const Feed = () => {
   },[])
 
   return feeds.length > 0 ? (
-    <section className='h-full text-white   xl:pr-5 flex items-start justify-center xl:gap-8'>
+    <section className='max-h-screen text-white overflow-hidden overflow-y-scroll no-scrollbar  xl:pr-5 flex items-start justify-center xl:gap-8'>
 
       {/* stories and post list */}
       <div className=' min-h-full w-[70%]'>
         <Stories/>
         
-        <div className='p-4 max-h-[75vh] no-scrollbar overflow-hidden overflow-y-scroll  space-y-6'>
+        <div className='p-4  no-scrollbar   space-y-6'>
           {
             feeds.map((post) => (
               <PostCard key={post._id} post={post} />
