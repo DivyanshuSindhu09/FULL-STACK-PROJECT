@@ -13,7 +13,7 @@ const UserCard = ({ user }) => {
       className="p-5 pt-6 flex flex-col justify-between w-72
                  border border-slate-700 rounded-xl
                  bg-gradient-to-b from-[#111827] via-[#0f172a] to-[#111827]
-                 font-[absans] transition-all duration-300 hover:scale-[1.02]
+                 font-[absans] transition-all duration-300 
                  shadow-lg hover:shadow-2xl hover:shadow-purple-500/10
                  relative overflow-hidden"
     >

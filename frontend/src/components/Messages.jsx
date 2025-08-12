@@ -27,7 +27,7 @@ const Messages = () => {
                          hover:shadow-[0_0_35px_rgba(34,211,238,0.8)]
                          backdrop-blur-md
                          transition-all duration-300 ease-out 
-                         hover:scale-[1.04]"
+                         "
             >
               {/* profile pic */}
               <img
