@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { dummyPostsData, dummyUserData } from '../../public/assets/assets'
 import Loading from '../templates/Loading'
 import UserProfile from '../templates/UserProfile'
 import PostCard from '../templates/PostCard'
+import moment from 'moment'
 
 
 const Profile = () => {
@@ -62,6 +63,34 @@ const Profile = () => {
                   {
                     posts.map((post)=>(
                       <PostCard key={post._id} post={post} />
+                    ))
+                  }
+                </div>
+              )
+            }
+
+            {/* to be remembered ************-------------**************------------ */}
+            {
+              activeTab === "media" && (
+                <div className='flex flex-wrap mt-6 max-w-6xl'>
+                  {
+                    posts.filter((post)=>post.image_urls.length > 0).map((post) => (
+                      <>
+                      {post.image_urls.map((image, index)=>(
+                        <Link
+                        target='_blank'
+                        to={image}
+                        className='relative group'
+                        key={index}>
+                          <img src={image} 
+                          className='w-64 aspect-video object-cover'
+                          />
+                          <p
+                          className='absolute font-[absans] font-b bottom-0 right-0 text-sm p-1 px-3 backdrop-blur-2xl text-white opacity-0 group-hover:opacity-100 transition duration-300'
+                          >Posted {moment(post.createdAt).fromNow()} </p>
+                        </Link>
+                      ))}
+                      </>
                     ))
                   }
                 </div>
