@@ -99,7 +99,7 @@ const Profile = () => {
             }
         </div>
       </div>
-      {showEdit && <ProfileEditModel/>}
+      {showEdit && <ProfileEditModel setShowEdit={setShowEdit}/>}
     </section>
   ) : <Loading/>
 }
