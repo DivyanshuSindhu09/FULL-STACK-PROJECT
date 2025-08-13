@@ -5,6 +5,7 @@ import Loading from '../templates/Loading'
 import UserProfile from '../templates/UserProfile'
 import PostCard from '../templates/PostCard'
 import moment from 'moment'
+import ProfileEditModel from '../templates/ProfileEditModel'
 
 
 const Profile = () => {
@@ -98,7 +99,7 @@ const Profile = () => {
             }
         </div>
       </div>
-      {showEdit && "TMKC"}
+      {showEdit && <ProfileEditModel/>}
     </section>
   ) : <Loading/>
 }
