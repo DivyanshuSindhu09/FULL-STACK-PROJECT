@@ -231,7 +231,7 @@ export const dummyMessagesData = [
     {
         "_id": "6878cc3217a54e4d37480122",
         "from_user_id": "user_2zwZSCMRXQ9GaEEVLgm6akQo96i",
-        "to_user_id": "user_2zdFoZib5lNr614LgkONdD8WG32",
+        "to_user_id": "user_30y28SKWgoCGAE4eAN8RuHfIFVP",
         "text": "",
         "message_type": "image",
         "media_url": "https://images.pexels.com/photos/106341/pexels-photo-106341.jpeg",
@@ -242,7 +242,7 @@ export const dummyMessagesData = [
     {
         "_id": "6878cc3c17a54e4d3748012f",
         "from_user_id": "user_2zwZSCMRXQ9GaEEVLgm6akQo96i",
-        "to_user_id": "user_2zdFoZib5lNr614LgkONdD8WG32",
+        "to_user_id": "user_30y28SKWgoCGAE4eAN8RuHfIFVP",
         "text": "This is a Samsung Tablet",
         "message_type": "text",
         "media_url": "",
