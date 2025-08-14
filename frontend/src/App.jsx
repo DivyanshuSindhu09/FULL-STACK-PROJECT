@@ -12,18 +12,28 @@ import Discover from './components/Discover'
 import { useAuth } from '@clerk/clerk-react'
 import { useEffect } from 'react'
 import {Toaster} from "react-hot-toast"
+import {useDispatch} from "react-redux"
+import { fetchUser } from './features/user/userSlice'
 
 const App = () => {
   const {user} = useUser()
   console.log(user)
   //! for getting access token
-  const { getToken } = useAuth()      
+  const { getToken } = useAuth()    
+  
+  const dispatch = useDispatch()
 
   useEffect(()=>{
-    if(user){
-      getToken().then((token) => console.log(token))
+    const fetchData = async () => {
+      if(user){
+      const token = await getToken()
+      console.log(token)
+      dispatch(fetchUser(token))
     }
-  }, [user])
+    }
+    fetchData()
+    //! function to get user details
+  }, [user, getToken, dispatch])
 
   return (
     <>
