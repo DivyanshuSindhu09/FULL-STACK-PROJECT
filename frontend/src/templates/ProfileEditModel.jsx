@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import { dummyUserData } from '../../public/assets/assets'
+import { useSelector } from 'react-redux'
 
 const ProfileEditModel = ({setShowEdit}) => {
-    const user = dummyUserData
+    
+    //! const user = dummyUserData
+
+    const user = useSelector((state) => state.user.value)
 
     const [editForm, setEditForm] = useState({
         username : user.username,

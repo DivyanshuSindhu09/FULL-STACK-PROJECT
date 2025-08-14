@@ -2,9 +2,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import MenuItems from './MenuItems'
 import { UserButton, useClerk } from '@clerk/clerk-react'
 import { dummyUserData } from '../../public/assets/assets'
+import { useSelector } from 'react-redux'
 
 const Sidebar = ({ sideBarOpen, setSideBarOpen }) => {
-  const user = dummyUserData
+  // const user = dummyUserData
+  const user = useSelector((state)=>state.user.value)
   const navigate = useNavigate()
   const { signOut } = useClerk()
 

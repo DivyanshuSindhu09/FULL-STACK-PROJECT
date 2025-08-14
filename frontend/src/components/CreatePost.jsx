@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import { dummyUserData } from '../../public/assets/assets'
 import toast from "react-hot-toast"
+import { useSelector } from 'react-redux'
 
 const CreatePost = () => {
   const [content, setContent] = useState("")
   const [images, setImages] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const user = dummyUserData
+  //! const user = dummyUserData replacing with store data 
+
+  const user = useSelector((state)=>state.user.value)
 
   const handleSubmit = async () => {
 

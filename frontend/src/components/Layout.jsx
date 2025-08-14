@@ -4,9 +4,13 @@ import Sidebar from '../templates/Sidebar'
 import { Outlet } from 'react-router-dom'
 import { dummyUserData } from '../../public/assets/assets'
 import MenuItems from '../templates/MenuItems'
+import { useSelector } from 'react-redux'
+import Loading from '../templates/Loading'
 
 const Layout = () => {
-  const user = dummyUserData
+  //! const user = dummyUserData (ab use hoga store se)
+  
+  const user = useSelector((state)=>state.user.value)
   const [sideBarOpen, setSideBarOpen] = useState(true)
   return user ? (
     <>

@@ -1,8 +1,13 @@
 import React from 'react'
 import { dummyUserData } from '../../public/assets/assets'
+import { useSelector } from 'react-redux'
 
 const UserCard = ({ user }) => {
-  const currentUser = dummyUserData
+
+  
+  //!const currentUser = dummyUserData
+
+  const currentUser = useSelector((state)=>state.user.value)
 
   const handleFollow = async () => {}
   const handleConnectionRequest = async () => {}

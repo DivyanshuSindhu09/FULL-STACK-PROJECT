@@ -8,8 +8,10 @@ import { inngest } from "../inngest/index.js";
 
 export const getUserData = async (req, res) => {
     try {
-        const {userID} = req.auth()
-        const user = await User.findById(userID)
+        const {userId} = req.auth()
+        const user = await User.findById(userId)
+
+        console.log(userId)
 
         if(!user) {
             return res.status(404).json({
