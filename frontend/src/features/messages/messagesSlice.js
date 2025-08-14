@@ -4,12 +4,12 @@ const initialState = {
     value : []
 }
 
-const meessageSlice = createSlice({
-    name : "message",
+const meessagesSlice = createSlice({
+    name : "messages",
     initialState,
     reducers : {
 
     }
 })
 
-export default meessageSlice.reducer
+export default meessagesSlice.reducer
