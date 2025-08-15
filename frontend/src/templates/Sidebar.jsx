@@ -40,7 +40,7 @@ const Sidebar = ({ sideBarOpen, setSideBarOpen }) => {
         <div className='flex gap-2 items-center cursor-pointer'>
           <UserButton />
           <div>
-            <h2 className='text-lg font-[absans] text-white'>{user.full_name}</h2>
+            <h2 className='text-lg font-[absans] text-white'>{user.full_name.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</h2>
             <p className='text-sm text-gray-400 font-[absans]'>@{user.username}</p>
           </div>
         </div>
