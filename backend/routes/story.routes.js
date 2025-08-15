@@ -5,7 +5,7 @@ import { createStory, getFriendsStories } from '../controllers/story.controller.
 
 const storyRouter = express.Router()
 
-storyRouter.post('/create',  protect, upload.fields('media'), createStory)
+storyRouter.post('/create',  protect, upload.single('media'), createStory)
 storyRouter.get('/get', protect, getFriendsStories)
 
 export default storyRouter

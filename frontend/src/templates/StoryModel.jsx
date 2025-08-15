@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
-
+import { useAuth} from "@clerk/clerk-react"
+import api from '../api/axios'
 
 const StoryModel = ({setModel}) => {
 const storyGradients = [
@@ -12,17 +13,52 @@ const storyGradients = [
   "bg-gradient-to-tr from-indigo-600 to-purple-700"  // Indigo to Deep Purple Luxe
 ]
 
+    const {getToken} = useAuth()
+
     const [mode, setMode] = useState("text")
     const [background, setBackground] = useState(storyGradients[0])
     const [text, setText] = useState("")
     const [media, setMedia] = useState(null)
     const [previewUrl, setPreviewUrl] = useState(null)
 
+    const MAX_VIDEO_DURATION = 60
+    const MAX_VIDEO_SIZE_MB = 50
+
     const handleMediaUpload = (e) => {
+        //! conditions for video
         const file = e.target.files?.[0]
         if(file){
-            setMedia(file)
-            setPreviewUrl(URL.createObjectURL(file))
+           if(file.type.startsWith("video")){
+            if(file.size > MAX_VIDEO_SIZE_MB * 1024 * 1025){
+                toast.error("Video size exceeds 50mb!")
+                setMedia(null)
+                setPreviewUrl(null)
+                return
+            }
+            const video = document.createElement('video')
+
+            video.preload = 'metadata'
+            video.onloadeddata = () => {
+                window.URL.revokeObjectURL(file)
+                if(video.duration > MAX_VIDEO_DURATION){
+                    toast.error("Video duration cannot exceed 1 minute.")
+                    setMedia(null)
+                    setPreviewUrl(null)
+                }else{
+                    setMedia(file)
+                    setPreviewUrl(URL.createObjectURL(file))
+                    setText("")
+                    setMode("media")
+                }
+            }
+
+            video.src = URL.createObjectURL(file)
+           }else if (file.type.startsWith("image")) {
+                setMedia(file)
+                    setPreviewUrl(URL.createObjectURL(file))
+                    setText("")
+                    setMode("media")
+           }
         }
     }
 
@@ -31,7 +67,39 @@ const storyGradients = [
     }
 
     const handleCreateStory = async () => {
+        const token = await getToken()
 
+        //! 
+        const media_type = mode === "media" ? media?.type.startsWith('image') ? "image" : "video" : "text"
+
+        if(media_type === "text" && !text) {
+            toast.error("Please add some text!")
+        }
+
+        let formData = new FormData()
+
+        formData.append('content', text)
+        formData.append("media_type", media_type)
+        formData.append("media", media)
+        formData.append("background_color", background)
+
+        try {
+            const {data} = await api.post('/api/story/create', formData, {
+                headers : {
+                    Authorization : `Bearer ${token}`
+                }
+            })
+
+            if(data.success){
+                setModel(false)
+                toast.success("Story was created successfully")
+                
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.meesage)
+        }
     }
   return (
     <section className='w-full h-screen flex items-center justify-center flex-col fixed bg-black/80 text-white top-0 left-0 z-99 backdrop-blur '>
@@ -99,8 +167,7 @@ const storyGradients = [
                 <button
       onClick={()=>toast.promise(handleCreateStory(), {
         loading : "Saving...",
-        success : <p className='font-[absans]'>Story Added</p>,
-        error : e => <p> {e.message} </p>
+        
       })}
       className="relative overflow-hidden flex items-center text-xl cursor-pointer font-[acma-black] px-8 py-3 mt-4 rounded-2xl font-semibold text-white tracking-wide
         bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500
