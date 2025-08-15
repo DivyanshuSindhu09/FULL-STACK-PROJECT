@@ -15,7 +15,7 @@ userRouter.post('/update', protect,
             maxCount: 1
         },
         {
-            name: 'cover_picture',
+            name: 'cover_photo',
             maxCount: 1
         }
     ]) ,updateUserData)

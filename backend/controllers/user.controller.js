@@ -39,10 +39,10 @@ export const getUserData = async (req, res) => {
 
 export const updateUserData = async (req, res) => {
     try {
-        const {userID} = req.auth()
+        const {userId} = req.auth()
         let {username, bio,full_name ,location} = req.body
 
-        const tempUser = await User.findById(userID)
+        const tempUser = await User.findById(userId)
 
         //! if username not provided, use existing username
         !username && (username = tempUser.username)
@@ -66,7 +66,7 @@ export const updateUserData = async (req, res) => {
         }
 
         const profile = req.files.profile_picture && req.files.profile_picture[0]
-        const cover = req.files.cover_picture && req.files.profile_picture[0]
+        const cover = req.files.cover_photo && req.files.cover_photo[0]
 
         //! image kit
 
@@ -109,7 +109,7 @@ export const updateUserData = async (req, res) => {
         }
 
         //! saving in the database
-        const user = await User.findByIdAndUpdate(userID, updatedData, {new: true})
+        const user = await User.findByIdAndUpdate(userId, updatedData, {new: true})
 
         res.status(200).json({
             success: true,

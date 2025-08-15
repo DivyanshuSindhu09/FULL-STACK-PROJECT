@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import { dummyUserData } from '../../public/assets/assets'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateUser } from '../features/user/userSlice'
+import { useAuth } from "@clerk/clerk-react"
+import toast from 'react-hot-toast'
 
 const ProfileEditModel = ({setShowEdit}) => {
     
     //! const user = dummyUserData
 
     const user = useSelector((state) => state.user.value)
+
+    const dispatch = useDispatch()
+    const {getToken} = useAuth()
 
     const [editForm, setEditForm] = useState({
         username : user.username,
@@ -16,9 +22,31 @@ const ProfileEditModel = ({setShowEdit}) => {
         cover_photo : null,
         full_name : user.full_name
     })
-
+    //! very important
     const handleSaveProfile = async (e) => {
         e.preventDefault()
+
+        try {
+
+            const userData = new FormData()
+            const {full_name, username, bio, location, profile_picture, cover_photo} = editForm
+
+            userData.append('username', username)
+            userData.append('bio', bio)
+            userData.append('location', location)
+            userData.append('full_name', full_name)
+
+            profile_picture && userData.append('profile_picture', profile_picture)
+            cover_photo && userData.append('cover_photo', cover_photo)
+
+
+            const token = await getToken()
+            dispatch(updateUser({userData, token}))
+
+            setShowEdit(false)
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
   return (
     <section className='fixed top-0 bottom-0 left-0 right-0 z-110 h-screen overflow-y-scroll bg-black/50'>
@@ -28,7 +56,11 @@ const ProfileEditModel = ({setShowEdit}) => {
 
                 <form 
                 className='space-y-4'
-                onSubmit={handleSaveProfile}
+                onSubmit={e => toast.promise(
+                    handleSaveProfile(e),{
+                        loading : "Saving...."
+                    }
+                )}
                 >
                     <div className='flex flex-col items-start gap-3'>
                         <label 
