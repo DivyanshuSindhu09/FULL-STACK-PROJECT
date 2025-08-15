@@ -101,7 +101,7 @@ const ProfileEditModel = ({setShowEdit}) => {
                             <div className='group/cover relative'>
                                 <img
                                 className='w-80 h-40 rounded-lg object-cover mt-2 '
-                                src={editForm.cover_photo ? URL.createObjectURL(editForm.cover_photo) : user.cover_photo} alt="" />
+                                src={editForm.cover_photo ? URL.createObjectURL(editForm.cover_photo) : user.cover_picture} alt="" />
                                 <div className='absolute hidden group-hover/cover:flex top-0 left-0 right-0 bottom-0 bg-black/20 rounded items-center justify-center'>
                                     <i className="text-white ri-pencil-line"></i>
                                 </div>

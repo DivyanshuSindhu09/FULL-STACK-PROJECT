@@ -66,10 +66,10 @@ const Profile = () => {
           {/* cover photo */}
           <div className='md:h-56 lg:h-36  bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200'>
             {
-              user.cover_photo && (
+              user.cover_picture && (
                 <img
                 className='w-full h-full object-cover'
-                src={user.cover_photo} />
+                src={user.cover_picture} />
               )
             }
           </div>
