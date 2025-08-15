@@ -3,21 +3,57 @@ import React, { useState } from 'react'
 import { dummyUserData } from '../../public/assets/assets'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useAuth } from "@clerk/clerk-react"
+import api from '../api/axios'
+import toast from "react-hot-toast"
 
 const PostCard = ({ post }) => {
   const navigate = useNavigate()
   const [likes, setLikes] = useState(post.likes_count)
-
+  const {getToken} = useAuth()
 
   //! const currentUser = dummyUserData
 
   const currentUser = useSelector((state)=>state.user.value)
 
   const handleLike = async () => {
-    // like toggle logic
+    //! like toggle logic
+    const token = await getToken()
+
+    try {
+      const {data} = await api.post('/api/post/like', 
+        //! req.body ->
+        {
+          postId : post._id 
+        },
+        {
+          headers : {
+            Authorization : `Bearer ${token}`
+          }
+        }
+      )
+
+      if(data.success){
+        toast.success("You have liked this post")
+
+        setLikes(
+          (prev) => {
+            if(prev.includes (currentUser._id)){
+              return prev.filter((id) => id !== currentUser._id)
+            }else{
+              return [...prev, currentUser._id]
+            }
+          }
+        )
+      }else{
+        toast(data.message)
+      }
+    } catch (error) {
+      toast(error.message)
+    }
   }
 
-  // Hashtag highlight for dark theme
+  //! Hashtag highlight for dark theme
   const postWithHashtags = post.content.replace(
     /(#\w+)/g,
     '<span class="bg-gradient-to-r from-purple-400 to-indigo-400 bg-clip-text text-transparent font-semibold">$1</span>'
