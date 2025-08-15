@@ -34,13 +34,14 @@ const PostCard = ({ post }) => {
       )
 
       if(data.success){
-        toast.success("You have liked this post")
+        
 
         setLikes(
           (prev) => {
             if(prev.includes (currentUser._id)){
               return prev.filter((id) => id !== currentUser._id)
             }else{
+              toast.success("You have liked this post")
               return [...prev, currentUser._id]
             }
           }
