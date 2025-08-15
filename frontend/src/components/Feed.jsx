@@ -9,6 +9,9 @@ import api from '../api/axios'
 import toast from 'react-hot-toast'
 
 const Feed = () => {
+
+  //! dusro ki feed khali hogi 
+  
   const [feeds, setFeeds] = useState([])
   const [loading, setLoading] = useState(false)
 
