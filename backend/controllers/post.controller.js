@@ -7,7 +7,7 @@ import { User } from '../models/user.model.js'
 export const addPost = async (req, res) => {
     try {
         
-        const {userId} = req.auth
+        const {userId} = req.auth()
         const {content, post_type} = req.body   
 
         const images = req.files //! ye dekhio again
@@ -27,9 +27,9 @@ export const addPost = async (req, res) => {
                     const url = imagekit.url({
                         path: response.filePath,
                         transformation:[
-                            {quality: 'auto'},
+                            {quality: 100},
                             {format : 'webp'},
-                            {width:'512'}
+                            // {width:'512'}
                         ]
                     })
                     return url
