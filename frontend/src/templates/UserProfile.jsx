@@ -22,7 +22,7 @@ const UserProfile = ({user, posts, setShowEdit, profileId}) => {
         <div className='flex flex-col md:flex-row items-start justify-between'>
             <div>
                 <div className='flex items-center gap-3'>
-                    <h2 className='text-2xl font-bold text-gray-900'> {user.full_name} </h2>
+                    <h2 className='text-2xl font-bold text-gray-900'> {user.full_name.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} </h2>
                     <i className="text-xl ri-verified-badge-fill"></i>
                 </div>
                 <p className='text-gray-600'> {

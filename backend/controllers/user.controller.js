@@ -403,10 +403,13 @@ export const getPostsByUser = async (req, res) => {
     
         return res.status(200).json({
             success : true,
+            posts,
+            profile,
             message : "Posts fetched successfully"
         })
     } catch (error) {
         console.log(error)
+        console.log("Error HEre")
         return res.status(400).json({
             success: false,
             message : error.message

@@ -6,9 +6,16 @@ import UserProfile from '../templates/UserProfile'
 import PostCard from '../templates/PostCard'
 import moment from 'moment'
 import ProfileEditModel from '../templates/ProfileEditModel'
+import { useAuth } from '@clerk/clerk-react'
+import api from '../api/axios'
+import toast from "react-hot-toast"
+import { useSelector } from 'react-redux'
+
 
 
 const Profile = () => {
+
+  const currentUser = useSelector((state)=>state.user.value)
 
   const {profileId} = useParams()
   const [user, setUser] = useState(null)
@@ -16,14 +23,40 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState('posts')
   const [showEdit, setShowEdit] = useState(false)
 
-  const fetchUser = async () => {
-    setUser(dummyUserData)
-    setPosts(dummyPostsData)
+  // const fetchUser = async () => {
+  //   setUser(dummyUserData)
+  //   setPosts(dummyPostsData)
+  // }
+
+  const {getToken} = useAuth()
+  const fetchUser = async (profileId) => {
+  const token = await getToken()
+
+    try {
+      console.log("func first")
+      const {data} = await api.post(`/api/user/profiles`, {profileId}, {
+        headers : {Authorization: `Bearer ${token}`}
+      })
+      console.log("funcn second")
+      console.log(data)
+      if(data.success){
+        setUser(data.profile)
+        setPosts(data.posts)
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
   }
 
   useEffect(()=>{
-    fetchUser()
-  }, [])
+    if(profileId){
+      fetchUser(profileId)
+    }else{
+      fetchUser(currentUser._id)
+    }
+  }, [profileId, currentUser])
   
   return user ? (
     <section className='relative max-h-screen font-[absans] overflow-y-scroll no-scrollbar p-6'>

@@ -34,7 +34,7 @@ userRouter.post('/accept', protect, acceptConnectionRequest)
 
 userRouter.get('/connections', protect, getUserConnections)
 
-userRouter.get('/profiles', protect, getPostsByUser)
+userRouter.post('/profiles', protect, getPostsByUser)
 
 userRouter.get('/recent-messages', protect, getRecentMessages)
 //! idhar dhyan rkhio 
