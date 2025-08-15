@@ -46,6 +46,7 @@ const CreatePost = () => {
       })
 
       if(data.success){
+        toast.success("Post was created successfully")
         navigate('/')
       }else{
         toast.error(data.message)
@@ -132,7 +133,7 @@ const CreatePost = () => {
                 handleSubmit(),
                 {
                   loading : 'uploading....',
-                  success : <p className='font-[absans]'>Post Added</p>,
+                  // success : <p className='font-[absans]'>Post Added</p>,
                   error : <p className='font-[absans]'>Post Not Added</p>
                 }
               )}

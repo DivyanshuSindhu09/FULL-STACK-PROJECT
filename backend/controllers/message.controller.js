@@ -60,7 +60,7 @@ export const sendMessages = async (req, res) => {
             media_url = imagekit.url({
                 path : response.filePath,
                 transformation : [
-                    {quality : "auto"},
+                    // {quality : "auto"},
                     {format : "webp"},
                     {width : '1280'}
                 ]

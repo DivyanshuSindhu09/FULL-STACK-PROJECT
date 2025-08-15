@@ -80,7 +80,7 @@ export const updateUserData = async (req, res) => {
             const profileUrl = imagekit.url({
                 path: response.filePath,
                 transformation:[
-                    {quality: 'auto'},
+                    // {quality: 'auto'},
                     {format : 'webp'},
                     {width:'512'}
                 ]
@@ -99,7 +99,7 @@ export const updateUserData = async (req, res) => {
             const coverUrl = imagekit.url({
                 path: response.filePath,
                 transformation:[
-                    {quality: 'auto'},
+                    // {quality: 'auto'},
                     {format : 'webp'},
                     {width:'1280'}
                 ]
