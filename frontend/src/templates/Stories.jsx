@@ -93,7 +93,7 @@ const Stories = () => {
                     ))
                 }
             </div>
-            {model && <StoryModel setModel={setModel} />}
+            {model && <StoryModel fetchStories={fetchStories} setModel={setModel} />}
             {/* view story */}
             {
                 viewStory && <StoryViewer viewStory={viewStory} setViewStory={setViewStory} />

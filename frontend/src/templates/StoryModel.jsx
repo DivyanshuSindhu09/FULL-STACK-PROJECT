@@ -3,7 +3,7 @@ import toast from 'react-hot-toast'
 import { useAuth} from "@clerk/clerk-react"
 import api from '../api/axios'
 
-const StoryModel = ({setModel}) => {
+const StoryModel = ({setModel, fetchStories}) => {
 const storyGradients = [
   "bg-gradient-to-tr from-purple-500 to-pink-500",   // Purple to Pink Glow
   "bg-gradient-to-tr from-cyan-500 to-blue-500",     // Teal to Blue Aurora
@@ -93,6 +93,7 @@ const storyGradients = [
             if(data.success){
                 setModel(false)
                 toast.success("Story was created successfully")
+                fetchStories()
                 
             }else{
                 toast.error(data.message)

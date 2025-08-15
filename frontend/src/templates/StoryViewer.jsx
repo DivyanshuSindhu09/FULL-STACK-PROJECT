@@ -68,9 +68,11 @@ const StoryViewer = ({viewStory, setViewStory}) => {
   return (
 
     <section 
-    style={{    backgroundColor: viewStory.media_type === "text" ? viewStory.background_color : "#000000"
+    style={{    backgroundColor: viewStory.media_type !== "text" &&  ("#000000")
 }}
-    className={`w-full h-screen flex items-center justify-center flex-col fixed text-white top-0 left-0 z-99  `}>
+    className={`w-full h-screen
+    ${viewStory.media_type === "text" ? viewStory.
+background_color : "" } flex items-center justify-center flex-col fixed text-white top-0 left-0 z-99  `}>
 
       <div className='absolute top-0 left-0 w-full h-1 bg-gray-700'>
         <div
