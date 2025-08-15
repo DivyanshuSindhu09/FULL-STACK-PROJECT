@@ -2,8 +2,14 @@ import React, { useState } from 'react'
 import { dummyUserData } from '../../public/assets/assets'
 import toast from "react-hot-toast"
 import { useSelector } from 'react-redux'
+import {useAuth} from "@clerk/clerk-react"
+import api from '../api/axios'
+import { useNavigate } from 'react-router-dom'
 
 const CreatePost = () => {
+
+  const navigate = useNavigate()
+
   const [content, setContent] = useState("")
   const [images, setImages] = useState([])
   const [loading, setLoading] = useState(false)
@@ -12,8 +18,42 @@ const CreatePost = () => {
 
   const user = useSelector((state)=>state.user.value)
 
+  const {getToken} = useAuth() 
+
   const handleSubmit = async () => {
 
+    const token = await getToken()
+
+    if(!images.length && !content){
+      return toast.error("Please add atleast one image or some text")
+    }
+
+    setLoading(true)
+
+    const postType = images.length && content ? "text_with_image" : images.length ? "image" : "text"
+
+    try {
+      const formData = new FormData()
+      formData.append('content', content)  
+      formData.append('post_type', postType)
+      
+      images.map((image) => {
+        formData.append('images', image)
+      })
+      
+      const {data} = await api.post('/api/post/add', formData, {
+        headers : {Authorization : `Bearer ${token}`}
+      })
+
+      if(data.success){
+        navigate('/')
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+    setLoading(false)
   }
 
   return (
