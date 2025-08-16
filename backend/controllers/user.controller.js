@@ -130,7 +130,7 @@ export const updateUserData = async (req, res) => {
 
 export const discoverUsers = async (req, res) => {
     try {
-        const {userID} = req.auth()
+        const {userId} = req.auth()
         //!$or: Means any one of the below conditions can be true.
 
         const {input} = req.body
@@ -140,11 +140,13 @@ export const discoverUsers = async (req, res) => {
                 {username : new RegExp(input, 'i')},
                 {email : new RegExp(input, 'i')},
                 {full_name : new RegExp(input, 'i')},
-                {location : new RegExp(input, 'i')}
+                {location : new RegExp(input, 'i')},
+                {bio : new RegExp(input, 'i')}
+
             ]
         })
         //! removing the current user from the list
-        const filteredUsers = allUsers.filter(user => user._id.toString() !== userID.toString())
+        const filteredUsers = allUsers.filter(user => user._id.toString() !== userId.toString())
 
         return res.status(200).json({
             success: true,
@@ -305,9 +307,9 @@ export const sendConnectionRequest = async (req, res) => {
 
 export const getUserConnections = async (req, res) => {
     try {
-        const {userID} = req.auth()
+        const {userId} = req.auth()
 
-        const user =  await User.findById(userID).populate('connections', 'followers', 'following')
+        const user =  await User.findById(userId).populate('connections', 'followers', 'following')
 
         const connections = user.connections
         const followers = user.followers
@@ -315,7 +317,7 @@ export const getUserConnections = async (req, res) => {
 
         //! for pending connections
 
-        const pendingConnections = ( await Connection.find({to_user_id: userID, status: 'pending'}).populate('from_user_id') ).map((connection)=> connection.from_user_id)
+        const pendingConnections = ( await Connection.find({to_user_id: userId, status: 'pending'}).populate('from_user_id') ).map((connection)=> connection.from_user_id)
 
         //! pendingConnections = [userObj1, userObj2, ...]
 
@@ -343,12 +345,12 @@ export const getUserConnections = async (req, res) => {
 
 export const acceptConnectionRequest = async (req, res) => {
     try {
-        const {userID} = req.auth()
+        const {userId} = req.auth()
         const {id} = req.body
 
         const connection = await Connection.findOne({
             from_user_id: id,
-            to_user_id: userID,
+            to_user_id: userId,
         })
 
         if(!connection) {
@@ -358,12 +360,12 @@ export const acceptConnectionRequest = async (req, res) => {
             })
         }
 
-        const user = await User.findById(userID)
+        const user = await User.findById(userId)
         user.connections.push(id)
         await user.save()
 
         const fromUser = await User.findById(id)
-        fromUser.connections.push(userID)
+        fromUser.connections.push(userId)
         await fromUser.save()
 
         connection.status = 'accepted'

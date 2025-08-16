@@ -1,24 +1,49 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { dummyConnectionsData } from '../../public/assets/assets'
 import UserCard from '../templates/UserCard'
 import Loading from '../templates/Loading'
+import api from '../api/axios'
+import { useAuth } from '@clerk/clerk-react'
+import toast from 'react-hot-toast'
+import { useDispatch } from 'react-redux'
+import { fetchUser } from '../features/user/userSlice'
 
 const Discover = () => {
 
+  const dispatch = useDispatch()
+
   const [input, setInput] = useState("")
-  const [users, setUsers] = useState(dummyConnectionsData)
+  const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
 
+  const {getToken} = useAuth()
+
   const handleSearch = async (e) => {
+    const token = await getToken()
     if(e.key === 'Enter'){
-      setUsers([])
-      setLoading(true)
-      setTimeout(() => {
-        setUsers(dummyConnectionsData)
+      try {
+        setUsers([])
+        setLoading(true)
+        const {data} = await api.post('api/user/discover', {input},{
+          headers : {
+            Authorization : `Bearer ${token}`
+          }
+        })
+        data.success ? setUsers(data.users) : toast.error(data.message)
         setLoading(false)
-      }, 1000);
+        setInput('')
+      } catch (error) {
+        toast.error(error.message)
+      }
+      setLoading(false)
     }
   }
+
+  useEffect(()=>{
+    getToken().then((token) => {
+      dispatch(fetchUser(token))
+    })
+  }, [])
  
   return (
     <section className='min-h-screen text-white bg-gradient-to-b from-[#0a0118] to-[#1a103f]'>
