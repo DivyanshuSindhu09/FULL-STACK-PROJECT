@@ -75,7 +75,7 @@ const UserCard = ({ user }) => {
   } catch (error) {
     const errMsg = error.response?.data?.message || error.message
     if (errMsg === "Connection request already pending") {
-      toast("Connection request already pending", {
+      toast("Connection request already sent", {
         icon: 'ℹ️',
         style: {
           background: '#2563eb',
