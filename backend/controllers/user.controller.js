@@ -167,25 +167,25 @@ export const discoverUsers = async (req, res) => {
 
 export const followUser = async (req, res) => {
     try {
-        const {userID} = req.auth()
-        const {followUserID} = req.body
+        const {userId} = req.auth()
+        const {id} = req.body
         //! koi bhi name rkh skte hain variable ka
 
-        const user = await User.findById(userID)
+        const user = await User.findById(userId)
 
-        if(user.following.includes(followUserID)) {
+        if(user.following.includes(id)) {
             return res.status(400).json({
                 success: false,
                 message: "You are already following this user"
             })
         }
 
-        user.following.push(followUserID)
+        user.following.push(id)
         await user.save()
 
-        const followUser = await User.findById(followUserID)
+        const followUser = await User.findById(id)
         //! jis follow kr rhe hain uske followers me bhi add krna hoga
-        followUser.followers.push(userID)
+        followUser.followers.push(userId)
         await followUser.save()
 
         return res.status(200).json({
@@ -205,16 +205,16 @@ export const followUser = async (req, res) => {
 
 export const unfollowUser = async (req, res) => {
     try {
-        const {userID} = req.auth()
+        const {userId} = req.auth()
         const {unfollowUserID} = req.body
 
-        const user = await User.findById(userID)
+        const user = await User.findById(userId)
 
         user.following = user.following.filter((user)=> user !== unfollowUserID)
         await user.save()
 
         const unfollowUser = await User.findById(unfollowUserID)
-        unfollowUser.followers = unfollowUser.followers.filter((user)=> user !== userID)
+        unfollowUser.followers = unfollowUser.followers.filter((user)=> user !== userId)
         await unfollowUser.save()
 
         return res.status(200).json({
@@ -234,20 +234,24 @@ export const unfollowUser = async (req, res) => {
 
 export const sendConnectionRequest = async (req, res) => {
     try {
-        const {userID} = req.auth()
-        const {to_user_id} = req.body
+
+        // console.log("AUTH:", req.auth());
+        // console.log("BODY:", req.body);
+
+        const { userId } = req.auth()
+        const { id } = req.body
         
         //? check if user has sent more than 20 connection requests in 24 hours
-
         const last24Hours = new Date(Date.now() - 24 * 60 * 60 * 1000)
 
         const connectionRequests = await Connection.find({
-            from_user_id: userID,
-            created_at : { $gte: last24Hours }
+            from_user_id: userId,
+            createdAt : { $gte: last24Hours }
         })
+        console.log("Requests in 24h:", connectionRequests.length)
+
 
         //! .find query returns an array, so we can check the length
-
         if(connectionRequests.length >= 20) {
             return res.status(400).json({
                 success: false,
@@ -256,42 +260,49 @@ export const sendConnectionRequest = async (req, res) => {
         }
         
         //! check if connection request already exists
-        
         const connection = await Connection.findOne({
             $or:[
-                {from_user_id: userID, to_user_id},
-                {from_user_id: to_user_id, to_user_id: userID}
+                { from_user_id: userId, to_user_id : id },
+                { from_user_id: id, to_user_id: userId }
             ]
         })
 
-        if(!connection){
-            const newConnection = await Connection.create({
-                from_user_id: userID,
-                to_user_id,
-            })
-            //! triggering send connection request reminder function
+        console.log("Found connection:", connection)
 
-            await inngest.send({
-                name : "app/connection-request",
-                data : {
-                    connectionId : newConnection._id
-                }
-            })
 
-            return res.status(200).json({
-                success: true,
-                message: "Connection request sent successfully"
-            })
-        } else if (connection && connection.status === 'accepted') {
-            return res.status(400).json({
-                success: false,
-                message: "You are already connected with this user"
-            })
+        if(connection){
+            if(connection.status === 'accepted'){
+                return res.status(400).json({
+                    success : false,
+                    message : "You are already connected with this user"
+                })
+            }
+
+            if(connection.status === 'pending'){
+                return res.status(400).json({
+                    success : false,
+                    message : "Connection request already pending"
+                })
+            }
         }
-        
-        return res.status(400).json({
-            success: false,
-            message: "Connection request pending"
+
+        //! if no existing connection then create new one
+        const newConnection = await Connection.create({
+            from_user_id: userId,
+            to_user_id : id,
+        })
+
+        //! triggering send connection request reminder function
+        await inngest.send({
+            name : "app/connection-request",
+            data : {
+                connectionId : newConnection._id
+            }
+        })
+
+        return res.status(200).json({
+            success: true,
+            message: "Connection request sent successfully"
         })
 
     } catch (error) {
@@ -303,13 +314,23 @@ export const sendConnectionRequest = async (req, res) => {
     }
 }
 
+
 //! get user connections
 
 export const getUserConnections = async (req, res) => {
     try {
         const {userId} = req.auth()
 
-        const user =  await User.findById(userId).populate('connections', 'followers', 'following')
+        const user =  await User.findById(userId).populate("connections")
+                                                 .populate("followers")
+                                                 .populate("following");
+
+        if (!user) {
+            return res.status(404).json({
+            success: false,
+            message: "User not found"
+        });
+        }
 
         const connections = user.connections
         const followers = user.followers

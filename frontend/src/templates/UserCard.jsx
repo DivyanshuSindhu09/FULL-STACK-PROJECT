@@ -1,16 +1,92 @@
 import React from 'react'
 import { dummyUserData } from '../../public/assets/assets'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import {useAuth} from "@clerk/clerk-react"
+import {useNavigate} from "react-router-dom"
+import api from '../api/axios'
+import toast from "react-hot-toast"
+import { fetchUser } from '../features/user/userSlice'
 
 const UserCard = ({ user }) => {
 
-  
-  //!const currentUser = dummyUserData
-
   const currentUser = useSelector((state)=>state.user.value)
 
-  const handleFollow = async () => {}
-  const handleConnectionRequest = async () => {}
+  const {getToken} = useAuth()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()  
+  //!const currentUser = dummyUserData
+
+
+  const handleFollow = async () => {
+    const token = await getToken()
+    try {
+      const {data} = await api.post('/api/user/follow', {id:user._id},{
+        headers : {
+          Authorization : `Bearer ${token}`
+        }
+      })
+      if(data.success){
+        toast.success(data.message)
+        dispatch(fetchUser(token))
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+        toast.error(error.message)
+      
+    }
+  }
+  const handleConnectionRequest = async () => {
+  const token = await getToken()
+
+  //? agar already connected hai to direct messages page pe bhej do
+  if (currentUser.connections.includes(user._id)) {
+    return navigate('/messages/' + user._id)
+  }
+
+  try {
+    const { data } = await api.post(
+      '/api/user/connect',
+      { id: user._id },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+
+    if (data.success) {
+      toast.success(data.message) // ✅ "Connection request sent successfully"
+      dispatch(fetchUser(token))
+    } else {
+      if (data.message === "Connection request already pending") {
+        // ℹ️ Info toast (blue style)
+        toast(data.message, {
+          icon: 'ℹ️',
+          style: {
+            background: '#2563eb',
+            color: '#fff'
+          }
+        })
+      } else {
+        toast.error(data.message || "Something went wrong")
+      }
+    }
+  } catch (error) {
+    const errMsg = error.response?.data?.message || error.message
+    if (errMsg === "Connection request already pending") {
+      toast("Connection request already pending", {
+        icon: 'ℹ️',
+        style: {
+          background: '#2563eb',
+          color: '#fff'
+        }
+      })
+    } else {
+      toast.error(errMsg)
+    }
+  }
+}
 
   return (
     <div
