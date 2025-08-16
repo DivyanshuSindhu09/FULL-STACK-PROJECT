@@ -1,8 +1,11 @@
 import { dummyConnectionsData } from '../../public/assets/assets'
 import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 const Messages = () => {
   const navigate = useNavigate()
+
+  const {connections} = useSelector((state) => state.connections)
 
   return (
     <section className="text-white min-h-screen relative">
@@ -16,7 +19,7 @@ const Messages = () => {
 
         {/* connected user */}
         <div className="flex flex-col font-[absans] gap-4">
-          {dummyConnectionsData.map((user) => (
+          {connections.map((user) => (
             <div
               key={user._id}
               className="max-w-xl flex flex-wrap gap-5 p-6 rounded-xl
