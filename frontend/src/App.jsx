@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 import {Toaster} from "react-hot-toast"
 import {useDispatch} from "react-redux"
 import { fetchUser } from './features/user/userSlice'
+import { fetchConnections } from './features/connections/connectionSlice'
 
 const App = () => {
   const {user} = useUser()
@@ -29,6 +30,7 @@ const App = () => {
       const token = await getToken()
       console.log(token)
       dispatch(fetchUser(token))
+      dispatch(fetchConnections(token))
     }
     }
     fetchData()
