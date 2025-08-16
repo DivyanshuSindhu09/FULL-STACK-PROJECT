@@ -46,7 +46,7 @@ const Discover = () => {
   }, [])
  
   return (
-    <section className='min-h-screen text-white bg-gradient-to-b from-[#0a0118] to-[#1a103f]'>
+    <section className='min-h-screen max-h-screen overflow-y-scroll no-scrollbar text-white bg-gradient-to-b from-[#0a0118] to-[#1a103f]'>
       <div className='max-w-6xl mx-auto p-6'>
 
         <div className='mb-8'>
