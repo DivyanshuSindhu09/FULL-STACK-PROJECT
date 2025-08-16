@@ -15,7 +15,7 @@ const UserCard = ({ user }) => {
   return (
     <div
       key={user._id}
-      className="p-5 pt-6 flex flex-col justify-between w-72
+      className="p-5 pt-6 flex flex-col justify-between w-80
                  border border-slate-700 rounded-xl
                  bg-gradient-to-b from-[#111827] via-[#0f172a] to-[#111827]
                  font-[absans] transition-all duration-300 
