@@ -38,7 +38,13 @@ const Sidebar = ({ sideBarOpen, setSideBarOpen }) => {
 
       <div className='w-full border-t border-[#1e293b] py-4 px-2 flex items-center justify-between'>
         <div className='flex gap-2 items-center cursor-pointer'>
-          <UserButton />
+          <UserButton
+          appearance={{
+            elements : {
+              dangerSection : {display   : "none"}
+            }
+          }}
+          />
           <div>
             <h2 className='text-lg font-[absans] text-white'>{user.full_name.toLowerCase().split(' ').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}</h2>
             <p className='text-sm text-gray-400 font-[absans]'>@{user.username}</p>

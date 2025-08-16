@@ -66,17 +66,17 @@ const PostCard = ({ post }) => {
       <div className="flex items-center gap-3">
         <img
           className="w-11 h-11 rounded-full shadow-md shadow-black/40 border border-gray-700"
-          src={post.user.profile_picture}
+          src={post.user?.profile_picture}
           alt=""
         />
         <div>
           <span
           onClick={()=>navigate(`/profile/${post.user._id}`)}
           className="flex cursor-pointer items-center gap-2 text-[15px] font-bold font-[absans]">
-            {post.user.full_name}
+            {post.user?.full_name}
           </span>
           <span className="flex items-center gap-2 text-sm font-[absans] text-gray-400">
-            {post.user.username} <i className="text-[5px] ri-circle-fill"></i>{' '}
+            {post.user?.username} <i className="text-[5px] ri-circle-fill"></i>{' '}
             {moment(post.createdAt).fromNow()}
           </span>
         </div>
