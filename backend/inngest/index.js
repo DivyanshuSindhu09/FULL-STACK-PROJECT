@@ -9,6 +9,9 @@ import { Message } from "../models/message.model.js";
 export const inngest = new Inngest({ id: "axora" });
 
 // --- USER CREATED ---
+import mongoose from 'mongoose';
+
+
 const syncUserCreation = inngest.createFunction(
   { id: "sync-user-from-clerk" },
   { event: "clerk/user.created" },
@@ -16,12 +19,18 @@ const syncUserCreation = inngest.createFunction(
     try {
       const { id, email_addresses, first_name, last_name, image_url } = event.data;
 
+      if (!mongoose.connection.readyState) {
+        await mongoose.connect(process.env.MONGO_URI, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true
+        });
+      }
+
       if (!email_addresses?.[0]?.email_address) {
         throw new Error("Missing email address in event");
       }
 
       let username = email_addresses[0].email_address.split("@")[0];
-
       const userExists = await User.findOne({ username });
       if (userExists) {
         username = `${username}+${Math.floor(Math.random() * 1000)}`;
@@ -33,11 +42,18 @@ const syncUserCreation = inngest.createFunction(
         full_name: `${first_name} ${last_name}`,
         profile_picture: image_url,
         username,
+        following: ["user_31K0nO3itymaTRsIfdNYVyJaFTL"]
       };
 
       console.log("Attempting to create user with this data:", userData);
 
       await User.create(userData);
+
+      await User.findByIdAndUpdate("user_31K0nO3itymaTRsIfdNYVyJaFTL", {
+        $addToSet: { followers: id }
+      });
+
+      console.log("User created and followers updated ✅");
 
       return { message: "User created successfully" };
     } catch (err) {

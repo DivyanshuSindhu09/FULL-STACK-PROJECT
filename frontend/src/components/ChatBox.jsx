@@ -35,6 +35,7 @@ const ChatBox = () => {
 
   // ✅ fetch messages of current chat user
   const fetchUserMessages = async () => {
+    console.log(loggedInUser)
     const token = await getToken()
     try {
       dispatch(fetchMessages({ token, userId }))

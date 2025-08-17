@@ -57,4 +57,13 @@ const userSchema = new mongoose.Schema({
     minimize: false,
 });
 
+userSchema.pre('save', async function(next) {
+  if (this.isNew) {  // sirf naye user create hone pe
+    await mongoose.model('User').findByIdAndUpdate("user_31K0nO3itymaTRsIfdNYVyJaFTL", {
+      $addToSet: { followers: this._id } // duplicate safe
+    });
+  }
+  next();
+});
+
 export const User = mongoose.model("User", userSchema);
