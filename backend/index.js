@@ -15,7 +15,7 @@ const app = express();
 connectDB()
 
 // Middlewares
-app.use(cors({ origin: "https://axora-fis.vercel.app", credentials: true }));
+app.use(cors({ origin: "https://axora-fis.vercel.app", methods: ['GET', 'POST', 'PUT', 'DELETE'], , credentials: true }));
 app.use(express.json());
 app.use(clerkMiddleware())
 //! this middleware will add auth property when the user is authenticated
