@@ -50,7 +50,7 @@ const Connections = () => {
     const token = await getToken()
     try {
       const {data} = await api.post('/api/user/unfollow', {
-        id : userId
+        unfollowUserID : userId
       }, {
         headers : {
           Authorization : `Bearer ${token}`
