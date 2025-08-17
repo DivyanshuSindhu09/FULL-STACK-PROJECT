@@ -6,6 +6,17 @@ import api from '../api/axios'
 import { addMessages, fetchMessages, resetMessage } from '../features/messages/messagesSlice'
 import toast from "react-hot-toast"
 
+// ✅ custom hook for auto scroll
+const useAutoScroll = (dep) => {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: "smooth" })
+  }, [dep])
+
+  return ref
+}
+
 const ChatBox = () => {
   const { messages } = useSelector((state) => state.messages)
 
@@ -18,10 +29,11 @@ const ChatBox = () => {
   const [image, setImage] = useState(null)
   const [user, setUser] = useState(null)
 
-  const messageEndRef = useRef(null)
-
   const connections = useSelector((state) => state.connections.connections)
 
+  const messageEndRef = useAutoScroll(messages)
+
+  // ✅ fetch messages of current chat user
   const fetchUserMessages = async () => {
     const token = await getToken()
     try {
@@ -31,6 +43,7 @@ const ChatBox = () => {
     }
   }
 
+  // ✅ send message
   const sendMessage = async () => {
     const token = await getToken()
     try {
@@ -59,6 +72,7 @@ const ChatBox = () => {
     }
   }
 
+  // ✅ find current chat user from connections
   useEffect(() => {
     if (connections.length > 0) {
       const chatUser = connections.find(connection => connection._id === userId)
@@ -66,16 +80,13 @@ const ChatBox = () => {
     }
   }, [connections, userId])
 
+  // ✅ fetch messages on mount and reset on unmount
   useEffect(() => {
     fetchUserMessages()
     return () => {
       dispatch(resetMessage())
     }
   }, [userId])
-
-  useEffect(() => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
 
   return user && (
     <section className='flex font-[absans] flex-col h-screen'>
@@ -101,18 +112,24 @@ const ChatBox = () => {
                   className={`flex flex-col ${message.from_user_id === loggedInUser.id ? 'items-end' : 'items-start'}`}
                   key={index}>
                   <div className={`${message.from_user_id === loggedInUser.id ? "rounded-br-none" : "rounded-bl-none"} p-2 text-sm max-w-sm bg-white text-slate-700 rounded-lg shadow`}>
+                    
+                    {/* ✅ auto scroll on image load */}
                     {message.message_type === "image" && (
                       <img
                         className='w-full max-w-sm rounded-lg mb-1'
                         src={message.media_url}
-                        alt="" />
+                        alt=""
+                        onLoad={() => messageEndRef.current?.scrollIntoView({ behavior: "smooth" })}
+                      />
                     )}
+                    
                     <p>{message.text}</p>
                   </div>
                 </div>
               ))
           }
 
+          {/* scroll target */}
           <div ref={messageEndRef} />
         </div>
       </div>
@@ -132,7 +149,9 @@ const ChatBox = () => {
             {image ? (
               <img
                 className='h-8 rounded'
-                src={URL.createObjectURL(image)} />
+                src={URL.createObjectURL(image)}
+                alt="preview"
+              />
             ) : (
               <i className="text-xl ri-image-line"></i>
             )}

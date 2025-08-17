@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux"
 import { fetchUser } from './features/user/userSlice'
 import { fetchConnections } from './features/connections/connectionSlice'
 import { addMessages } from './features/messages/messagesSlice'
+import Notifications from './templates/Notifications'
 
 const App = () => {
   const { user } = useUser()
@@ -67,6 +68,9 @@ const App = () => {
               dispatch(addMessages(msg))
             } else {
               console.log("⚠️ msg for other chat")
+              toast.custom((t)=>(
+                <Notifications t={t} message={data.payload}/>
+              ), {position : "bottom-right"})
             }
           }
         } catch (err) {
