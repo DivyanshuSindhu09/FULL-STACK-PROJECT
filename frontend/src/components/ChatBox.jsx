@@ -35,7 +35,6 @@ const ChatBox = () => {
 
   // ✅ fetch messages of current chat user
   const fetchUserMessages = async () => {
-    console.log(loggedInUser)
     const token = await getToken()
     try {
       dispatch(fetchMessages({ token, userId }))
@@ -90,21 +89,21 @@ const ChatBox = () => {
   }, [userId])
 
   return user && (
-    <section className='flex font-[absans] flex-col h-screen'>
+    <section className='flex font-[absans] flex-col h-screen bg-[#0F1419]'>
       {/* Header */}
-      <div className='flex items-center gap-2 p-2 md:px-10 xl:pl-42 bg-gradient-to-r from-indigo-50 to-purple-50 border-b border-gray-300'>
+      <div className='flex items-center gap-3 p-4 md:px-10 xl:pl-42 bg-[#1C2128] border-b border-gray-700/50'>
         <img   
-          className='size-8 rounded-full'
+          className='size-10 rounded-full'
           src={user.profile_picture} alt="" />
         <div>
-          <p className='font-bold'>{user.full_name}</p>
-          <p className='text-sm text-gray-500 -mt-1.5'>@{user.username}</p>
+          <p className='font-semibold text-white'>{user.full_name}</p>
+          <p className='text-sm text-gray-400 -mt-0.5'>@{user.username}</p>
         </div>
       </div>
 
       {/* Messages */}
       <div className='p-5 md:px-10 h-full no-scrollbar overflow-y-scroll'>
-        <div className='space-y-4 max-w-4xl mx-auto'>
+        <div className='space-y-3 max-w-4xl mx-auto'>
           {messages &&
             messages
               .toSorted((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
@@ -112,12 +111,16 @@ const ChatBox = () => {
                 <div
                   className={`flex flex-col ${message.from_user_id === loggedInUser.id ? 'items-end' : 'items-start'}`}
                   key={index}>
-                  <div className={`${message.from_user_id === loggedInUser.id ? "rounded-br-none" : "rounded-bl-none"} p-2 text-sm max-w-sm bg-white text-slate-700 rounded-lg shadow`}>
+                  <div className={`${
+                    message.from_user_id === loggedInUser.id 
+                      ? "rounded-br-none bg-[#0969DA] text-white" 
+                      : "rounded-bl-none bg-[#21262D] text-gray-100 border border-gray-700/50"
+                  } p-3 text-sm max-w-sm rounded-lg`}>
                     
                     {/* ✅ auto scroll on image load */}
                     {message.message_type === "image" && (
                       <img
-                        className='w-full max-w-sm rounded-lg mb-1'
+                        className='w-full max-w-sm rounded-lg mb-2'
                         src={message.media_url}
                         alt=""
                         onLoad={() => messageEndRef.current?.scrollIntoView({ behavior: "smooth" })}
@@ -136,25 +139,25 @@ const ChatBox = () => {
       </div>
 
       {/* Input box */}
-      <div className='px-4'>
-        <div className='flex items-center gap-3 pl-5 p-1.5 bg-white w-full max-w-xl mx-auto border border-gray-200 shadow rounded-full mb-5'>
+      <div className='px-4 pb-4'>
+        <div className='flex items-center gap-3 pl-4 pr-2 py-2 bg-transparent w-full max-w-xl backdrop-blur-2xl  mx-auto border border-gray-700/50 rounded-full'>
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-            className='flex-1 outline-none text-slate-700'
+            className='flex-1 outline-none text-gray-100 bg-transparent placeholder-gray-500'
             placeholder='Type a message....'
             type="text" />
 
-          <label htmlFor="image">
+          <label htmlFor="image" className='cursor-pointer p-2 hover:bg-gray-700/50 rounded-full transition-colors'>
             {image ? (
               <img
-                className='h-8 rounded'
+                className='h-6 rounded'
                 src={URL.createObjectURL(image)}
                 alt="preview"
               />
             ) : (
-              <i className="text-xl ri-image-line"></i>
+              <i className="text-lg ri-image-line text-gray-400"></i>
             )}
             <input
               id='image'
@@ -166,8 +169,8 @@ const ChatBox = () => {
 
           <button
             onClick={sendMessage}
-            className='bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-700 hover:to-purple-800 active:scale-95 cursor-pointer text-white p-2 rounded-full'>
-            <i className="text-xl text-white ri-send-plane-2-fill"></i>
+            className='bg-[#0969DA] hover:bg-[#0860CA] active:scale-95 text-white p-2 rounded-full transition-colors'>
+            <i className="text-lg text-white ri-send-plane-2-fill"></i>
           </button>
         </div>
       </div>
