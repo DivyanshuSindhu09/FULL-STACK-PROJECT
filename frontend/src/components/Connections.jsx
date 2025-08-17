@@ -98,13 +98,16 @@ const Connections = () => {
   }, [])
 
   return (
-    <section className='max-h-screen overflow-y-scroll no-scrollbar font-[absans] bg-[#0F1419] min-h-screen'>
-      <div className='max-w-6xl mx-auto p-6'>
+    <section className='max-h-screen overflow-y-scroll no-scrollbar font-[absans] bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 min-h-screen relative overflow-hidden'>
+      <div className='absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-600/10 via-transparent to-transparent'></div>
+      <div className='absolute inset-0 bg-grid-white/[0.02] bg-[size:50px_50px]'></div>
+      
+      <div className='relative z-10 max-w-6xl mx-auto p-6'>
         {/* title */}
         
         <div className="mb-8">
-          <h1 className="text-3xl font-[acma-black] text-white mb-2">Connections</h1>
-          <p className="font-[absans] text-gray-400">Manage your network and discover new connections!</p>
+          <h1 className="text-4xl font-[acma-black] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 drop-shadow-2xl mb-3">Connections</h1>
+          <p className="font-[absans] text-gray-300 text-lg">Manage your network and discover new connections!</p>
         </div>
 
         {/* counts */}
@@ -112,27 +115,30 @@ const Connections = () => {
           {
             dataArray.map((item, index) => (
               <div 
-              className='flex flex-col items-center justify-center gap-1 border h-20 w-40 border-gray-700 bg-[#21262D] rounded-md'
+              className='flex flex-col items-center justify-center gap-2 border h-24 w-44 border-purple-400/30 bg-gradient-to-br from-slate-800/80 via-gray-800/80 to-slate-800/80 backdrop-blur-xl rounded-2xl shadow-xl shadow-purple-500/10 hover:shadow-purple-500/20 transition-all duration-300 relative overflow-hidden'
               key={index}>
-                <b className='text-white'> {item.value.length} </b>
-                <p className='text-gray-400'> {item.label} </p>
+                <div className='absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5'></div>
+                <div className='relative flex flex-col z-10'>
+                  <b className='text-xl text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400'> {item.value.length} </b>
+                  <p className='text-gray-300 font-medium'> {item.label} </p>
+                </div>
               </div>
             ))
           }
         </div>
 
         {/* tabs */}
-        <div className='inline-flex flex-wrap items-center border border-gray-700 rounded-md p-1 bg-[#1C2128]'>
+        <div className='inline-flex flex-wrap items-center border border-purple-400/30 rounded-2xl p-1.5 bg-gradient-to-r from-slate-800/80 via-gray-800/80 to-slate-800/80 backdrop-blur-xl shadow-xl shadow-purple-500/20'>
           {
             dataArray.map((tab)=>(
               <button
               onClick={()=>setCurrentTab(tab.label)}
               key={tab.label}
-              className={`flex cursor-pointer items-center px-3 py-1 text-sm rounded-md transition-colors ${
-              currentTab === tab.label ? 'bg-[#0969DA] font-medium text-white' : 'text-gray-400 hover:text-gray-200'
+              className={`flex cursor-pointer items-center px-4 py-2.5 text-sm rounded-xl transition-all duration-300 font-medium ${
+              currentTab === tab.label ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg shadow-purple-500/30' : 'text-gray-300 hover:text-white hover:bg-slate-700/50'
               }`}>
-                <span className='text-xl'>{tab.icon}</span>
-                <span className='ml-1'> {tab.label} </span>
+                <span className='text-lg'>{tab.icon}</span>
+                <span className='ml-2'> {tab.label} </span>
                 {
                   tab.count !== undefined && (
                     <span className='ml-2 text-xs bg-gray-700 text-gray-300 px-2 py-0.5 rounded-full
@@ -146,53 +152,56 @@ const Connections = () => {
 
         {/* connections */}
 
-        <div className='flex flex-wrap gap-6 mt-6'>
+        <div className='flex flex-wrap gap-6 mt-8'>
         {dataArray.find((item)=>item.label === currentTab).value.map((user, index)=>(
-          <div key={index} className='w-full max-w-88 flex gap-5 p-6 bg-[#21262D] border border-gray-700/50 rounded-md'>
-            <img src={user?.profile_picture} alt="" className="rounded-full w-12 h-12 mx-auto"/>
-            <div className='flex-1'>
-              <p className="font-medium text-gray-100">{user?.full_name}</p>
-              <p className="text-gray-400">@{user?.username}</p>
-              <p className="text-sm text-gray-500">{user?.bio.slice(0, 30)}...</p>
-              <div className='flex max-sm:flex-col gap-2 mt-4'>
-                {
-                  <button
-                  onClick={()=>navigate(`/profile/${user?._id}`)}
-                  className='w-full p-2 text-sm rounded bg-[#0969DA] hover:bg-[#0860CA] active:scale-95 transition text-white cursor-pointer'
-                  >View Profile</button>
-                }
-
-                {
-                  currentTab === "Following" && (
+          <div key={index} className='w-full max-w-88 flex gap-5 p-6 bg-gradient-to-br from-slate-800/80 via-gray-800/80 to-slate-800/80 backdrop-blur-xl border border-purple-400/30 rounded-2xl shadow-xl shadow-purple-500/10 hover:shadow-purple-500/20 transition-all duration-300 relative overflow-hidden'>
+            <div className='absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5'></div>
+            <div className='relative z-10 flex gap-5 w-full'>
+              <img src={user?.profile_picture} alt="" className="rounded-full w-12 h-12 border-2 border-cyan-400/50 shadow-lg"/>
+              <div className='flex-1'>
+                <p className="font-semibold text-white">{user?.full_name}</p>
+                <p className="text-cyan-300">@{user?.username}</p>
+                <p className="text-sm text-gray-300 mt-1">{user?.bio.slice(0, 30)}...</p>
+                <div className='flex max-sm:flex-col gap-2 mt-4'>
+                  {
                     <button
-                    onClick={()=>handleUnfollow(user?._id)}
-                    className='w-full p-2 text-sm rounded bg-[#1C2128] hover:bg-[#262C36] text-gray-200 active:scale-95 transition cursor-pointer border border-gray-700/50'>
-                      Unfollow
-                    </button>
-                  )
-                }
+                    onClick={()=>navigate(`/profile/${user?._id}`)}
+                    className='w-full p-2.5 text-sm rounded-xl bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 active:scale-95 transition-all duration-300 text-white cursor-pointer font-medium shadow-lg hover:shadow-xl hover:shadow-purple-500/25'
+                    >View Profile</button>
+                  }
 
-                {
-                  currentTab === "Pending" && (
-                    <button 
-                    onClick={()=>acceptConnection(user._id)}
-                    className='w-full p-2 text-sm rounded bg-[#1C2128] hover:bg-[#262C36] text-gray-200 active:scale-95 transition cursor-pointer border border-gray-700/50'>
-                      Accept
-                    </button>
-                  )
-                }
+                  {
+                    currentTab === "Following" && (
+                      <button
+                      onClick={()=>handleUnfollow(user?._id)}
+                      className='w-full p-2.5 text-sm rounded-xl bg-slate-800/60 hover:bg-slate-700/60 text-gray-200 hover:text-white active:scale-95 transition-all duration-300 cursor-pointer border border-gray-600/50 backdrop-blur-sm font-medium'>
+                        Unfollow
+                      </button>
+                    )
+                  }
 
-                {
-                  currentTab === "Connections" && (
-                    <button 
-                    onClick={()=>navigate(`/messages/${user._id}`)}
-                    className='w-full p-2 text-sm rounded bg-[#1C2128] hover:bg-[#262C36] text-gray-200 active:scale-95 transition cursor-pointer flex items-center justify-center gap-1 border border-gray-700/50'>
-                      <i className="ri-chat-new-fill"></i>
-                      Message
-                    </button>
-                  )
-                }
+                  {
+                    currentTab === "Pending" && (
+                      <button 
+                      onClick={()=>acceptConnection(user._id)}
+                      className='w-full p-2.5 text-sm rounded-xl bg-slate-800/60 hover:bg-slate-700/60 text-gray-200 hover:text-white active:scale-95 transition-all duration-300 cursor-pointer border border-gray-600/50 backdrop-blur-sm font-medium'>
+                        Accept
+                      </button>
+                    )
+                  }
 
+                  {
+                    currentTab === "Connections" && (
+                      <button 
+                      onClick={()=>navigate(`/messages/${user._id}`)}
+                      className='w-full p-2.5 text-sm rounded-xl bg-slate-800/60 hover:bg-slate-700/60 text-gray-200 hover:text-white active:scale-95 transition-all duration-300 cursor-pointer flex items-center justify-center gap-2 border border-gray-600/50 backdrop-blur-sm font-medium'>
+                        <i className="ri-chat-new-fill"></i>
+                        Message
+                      </button>
+                    )
+                  }
+
+                </div>
               </div>
             </div>
           </div>

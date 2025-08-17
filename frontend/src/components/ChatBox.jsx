@@ -89,21 +89,21 @@ const ChatBox = () => {
   }, [userId])
 
   return user && (
-    <section className='flex font-[absans] flex-col h-screen bg-[#0F1419]'>
+    <section className='flex font-[absans] flex-col h-screen bg-gray-900 text-gray-100'>
       {/* Header */}
-      <div className='flex items-center gap-3 p-4 md:px-10 xl:pl-42 bg-[#1C2128] border-b border-gray-700/50'>
+      <div className='flex items-center gap-2 p-2 md:px-10 xl:pl-42 bg-gray-800 border-b border-gray-700'>
         <img   
-          className='size-10 rounded-full'
+          className='size-8 rounded-full'
           src={user.profile_picture} alt="" />
         <div>
-          <p className='font-semibold text-white'>{user.full_name}</p>
-          <p className='text-sm text-gray-400 -mt-0.5'>@{user.username}</p>
+          <p className='font-bold text-white'>{user.full_name}</p>
+          <p className='text-sm text-gray-400 -mt-1.5'>@{user.username}</p>
         </div>
       </div>
 
       {/* Messages */}
       <div className='p-5 md:px-10 h-full no-scrollbar overflow-y-scroll'>
-        <div className='space-y-3 max-w-4xl mx-auto'>
+        <div className='space-y-4 max-w-4xl mx-auto'>
           {messages &&
             messages
               .toSorted((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
@@ -111,16 +111,12 @@ const ChatBox = () => {
                 <div
                   className={`flex flex-col ${message.from_user_id === loggedInUser.id ? 'items-end' : 'items-start'}`}
                   key={index}>
-                  <div className={`${
-                    message.from_user_id === loggedInUser.id 
-                      ? "rounded-br-none bg-[#0969DA] text-white" 
-                      : "rounded-bl-none bg-[#21262D] text-gray-100 border border-gray-700/50"
-                  } p-3 text-sm max-w-sm rounded-lg`}>
+                  <div className={`${message.from_user_id === loggedInUser.id ? "rounded-br-none bg-indigo-700 text-white" : "rounded-bl-none bg-gray-800 text-gray-100"} p-2 text-sm max-w-sm rounded-lg shadow`}>
                     
                     {/* ✅ auto scroll on image load */}
                     {message.message_type === "image" && (
                       <img
-                        className='w-full max-w-sm rounded-lg mb-2'
+                        className='w-full max-w-sm rounded-lg mb-1'
                         src={message.media_url}
                         alt=""
                         onLoad={() => messageEndRef.current?.scrollIntoView({ behavior: "smooth" })}
@@ -139,8 +135,8 @@ const ChatBox = () => {
       </div>
 
       {/* Input box */}
-      <div className='px-4 pb-4'>
-        <div className='flex items-center gap-3 pl-4 pr-2 py-2 bg-transparent w-full max-w-xl backdrop-blur-2xl  mx-auto border border-gray-700/50 rounded-full'>
+      <div className='px-4'>
+        <div className='flex items-center gap-3 pl-5 p-1.5 bg-gray-800 w-full max-w-xl mx-auto border border-gray-700 shadow rounded-full mb-5'>
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
@@ -149,15 +145,15 @@ const ChatBox = () => {
             placeholder='Type a message....'
             type="text" />
 
-          <label htmlFor="image" className='cursor-pointer p-2 hover:bg-gray-700/50 rounded-full transition-colors'>
+          <label htmlFor="image">
             {image ? (
               <img
-                className='h-6 rounded'
+                className='h-8 rounded'
                 src={URL.createObjectURL(image)}
                 alt="preview"
               />
             ) : (
-              <i className="text-lg ri-image-line text-gray-400"></i>
+              <i className="text-xl ri-image-line text-gray-400 hover:text-indigo-400"></i>
             )}
             <input
               id='image'
@@ -169,8 +165,8 @@ const ChatBox = () => {
 
           <button
             onClick={sendMessage}
-            className='bg-[#0969DA] hover:bg-[#0860CA] active:scale-95 text-white p-2 rounded-full transition-colors'>
-            <i className="text-lg text-white ri-send-plane-2-fill"></i>
+            className='bg-indigo-600 hover:bg-indigo-700 active:scale-95 cursor-pointer text-white p-2 rounded-full'>
+            <i className="text-xl text-white ri-send-plane-2-fill"></i>
           </button>
         </div>
       </div>
